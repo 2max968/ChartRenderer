@@ -15,18 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="TestApp.CPP.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="LibPlotter.cpp">
+    <ClCompile Include="ChartPlotter.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="LibPlotter.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="Definitions.h">
+    <ClInclude Include="ChartPlotter.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

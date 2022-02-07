@@ -1,0 +1,13 @@
+{
+  "HeaderFiles": [
+    ".\\LibPlotter.h"
+  ],
+  "DefinitionFiles": [
+    ".\\Definitions.h"
+  ],
+  "DllName": "ChartPlotter.Native.dll",
+  "SourceLocation": "..\\ChartPlotter.cpp",
+  "HeaderLocation": "..\\ChartPlotter.h",
+  "CallingConvention": "__cdecl",
+  "MainFunctionName": "initChartPlotter"
+}

@@ -96,6 +96,13 @@ namespace ChartPlotter
                 case 'O':
                     PlotStyle = XYPlotStyle.Circle;
                     break;
+                case '.':
+                case ':':
+                    PlotStyle = XYPlotStyle.Dot;
+                    break;
+                case '!':
+                    PlotStyle = XYPlotStyle.LineAndDot;
+                    break;
             }
             return this;
         }

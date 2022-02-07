@@ -207,7 +207,7 @@ namespace ChartPlotter.WinForms
 
         private void saveAsImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Thread thr = new Thread(delegate ()
+            if (Thread.CurrentThread.GetApartmentState() == ApartmentState.STA)
             {
                 if (sfdImage.ShowDialog() == DialogResult.OK)
                 {
@@ -218,9 +218,16 @@ namespace ChartPlotter.WinForms
                         bmp.Save(sfdImage.FileName);
                     }
                 }
-            });
-            thr.SetApartmentState(ApartmentState.STA);
-            thr.Start();
+            }
+            else
+            {
+                Thread thr = new Thread(delegate ()
+                {
+                    saveAsImageToolStripMenuItem_Click(sender, e);
+                });
+                thr.SetApartmentState(ApartmentState.STA);
+                thr.Start();
+            }
         }
 
         private void editGraphsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -245,11 +252,18 @@ namespace ChartPlotter.WinForms
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Plotter.Scaling *= 2;
-            using (Bitmap bmp = Plotter.RenderChart(pbGraph.Width * 2, pbGraph.Height * 2))
+            if(Thread.CurrentThread.GetApartmentState() == ApartmentState.STA)
             {
-                Plotter.Scaling /= 2;
-                Thread thr = new Thread(() => Clipboard.SetImage(bmp));
+                Plotter.Scaling *= 2;
+                using (Bitmap bmp = Plotter.RenderChart(pbGraph.Width * 2, pbGraph.Height * 2))
+                {
+                    Plotter.Scaling /= 2;
+                    Clipboard.SetImage(bmp);
+                }
+            }
+            else
+            {
+                Thread thr = new Thread(() => copyToolStripMenuItem_Click(sender, e));
                 thr.SetApartmentState(ApartmentState.STA);
                 thr.Start();
             }
