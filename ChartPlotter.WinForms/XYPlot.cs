@@ -67,9 +67,14 @@ namespace ChartPlotter.WinForms
         }
 
         public XYPlot(XYPlotRenderer plotter)
-            : this()
         {
+            InitializeComponent();
+
             Plotter = plotter;
+            Redraw();
+            renderLoop();
+            this.Disposed += XYPlot_Disposed;
+            this.MouseWheel += XYPlot_MouseWheel;
         }
 
         private void XYPlot_MouseWheel(object sender, MouseEventArgs e)
