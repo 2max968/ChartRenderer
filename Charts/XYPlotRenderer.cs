@@ -603,5 +603,19 @@ namespace ChartPlotter
             }
             return false;
         }
+
+        public void Reset()
+        {
+            ClearPlots();
+            RangeX = null;
+            RangeY1 = null;
+            RangeY2 = null;
+            HorizontalBackground = null;
+            Title = "Chart";
+            LabelX = "X Axis";
+            LabelY1 = "Y Axis";
+            LabelY2 = "";
+
+        }
     }
 }

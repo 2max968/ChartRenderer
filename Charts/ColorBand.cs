@@ -15,6 +15,8 @@ namespace ChartPlotter
     {
         public double[] Points { get;private set;}
         public Color[] Colors { get; private set; }
+        public bool Extend { get; set; } = false;
+        public bool Interpolate { get; set; } = true;
 
         public int Length
         {
@@ -53,6 +55,17 @@ namespace ChartPlotter
             Array.Sort(Points, Colors);
         }
 
+        public ColorBand(double[] points, string[] htmlColors)
+        {
+            if (points.Length != htmlColors.Length)
+                throw new ArgumentException("points length is not equal to colors length");
+            Points = points;
+            Colors = new Color[htmlColors.Length];
+            for(int i = 0; i < Colors.Length; i++)
+                Colors[i] = ColorTranslator.FromHtml(htmlColors[i]);
+            Array.Sort(Points, Colors);
+        }
+
         public ColorBand AddPoint(double t, Color c)
         {
             double[] dx = Points;
@@ -67,6 +80,11 @@ namespace ChartPlotter
             Points = dx;
             Colors = dy;
             return this;
+        }
+
+        public ColorBand AddPoint(double t, string htmlColor)
+        {
+            return AddPoint(t, ColorTranslator.FromHtml(htmlColor));
         }
     }
 }

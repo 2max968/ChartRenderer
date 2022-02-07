@@ -124,6 +124,12 @@ namespace ChartPlotter
             return this;
         }
 
+        public XYPlotData SetColor(string htmlColor)
+        {
+            DataColor = ColorTranslator.FromHtml(htmlColor);
+            return this;
+        }
+
         public XYPlotData SetWidth(float width)
         {
             Width = width;
@@ -198,6 +204,32 @@ namespace ChartPlotter
         public XYPlotData AddPoint(PointF point)
         {
             return AddPoint(point.X, point.Y);
+        }
+
+        public XYPlotData TranslateX(double distance)
+        {
+            for(int i = 0; i < DataX.Length; i++)
+            {
+                DataX[i] += distance;
+            }
+            return this;
+        }
+
+        public static XYPlotData operator&(XYPlotData x, XYPlotData y)
+        {
+            List<double> dx = new List<double>();
+            List<double> dy = new List<double>();
+            dx.AddRange(x.DataX);
+            dx.AddRange(y.DataX);
+            dy.AddRange(x.DataY);
+            dy.AddRange(y.DataY);
+            XYPlotData result = new XYPlotData(dx.ToArray(), dy.ToArray());
+            result.DataColor = x.DataColor;
+            result.DataTitle = x.DataTitle;
+            result.PlotIndex = x.PlotIndex;
+            result.PlotStyle = x.PlotStyle;
+            result.Width = x.Width;
+            return result;
         }
     }
 }

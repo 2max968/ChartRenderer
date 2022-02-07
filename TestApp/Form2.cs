@@ -256,5 +256,91 @@ namespace TestApp
             }
             menuStrip1.Enabled = true;
         }
+
+        private void colorBandToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (xyPlot1.Plotter.HorizontalBackground == null)
+            {
+                ColorBand colors = new ColorBand();
+                for (int i = 0; i < PlotColors.Colors.Length; i++)
+                {
+                    colors.AddPoint(i, PlotColors.Colors[i]);
+                }
+
+                xyPlot1.Plotter.HorizontalBackground = colors;
+            }
+            else
+            {
+                xyPlot1.Plotter.HorizontalBackground = null;
+            }
+            xyPlot1.Redraw();
+        }
+
+        private void iSOPrüfungToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            double[] times = new double[] { 0, 1, 6, 7 };
+            xyPlot1.Plotter.Reset();
+            xyPlot1.Plotter.Title = "";
+            xyPlot1.Plotter.LabelX = "Zeit / s";
+            xyPlot1.Plotter.LabelY1 = "Spannung / V";
+            XYPlotData voltage = new XYPlotData(times, new double[] { 250, 1000, 1000, 259 });
+            xyPlot1.Plotter.AddPlot(voltage).HideFromLegend().SetColor("#00CAE0");
+            xyPlot1.Plotter.GridLines = GridLineStyle.FullGrid;
+
+            xyPlot1.Plotter.HorizontalBackground = new ColorBand(times, new string[] { "#FFBC1F", "#ACF39D", "#FFBC1F", "black" });
+            xyPlot1.Plotter.HorizontalBackground.Interpolate = false;
+
+            xyPlot1.Plotter.RangeY1 = new ChartRange(0, double.NaN);
+
+            xyPlot1.Redraw();
+        }
+
+        private void iSOPrüfungRToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            double[] times = new double[] { 0, 1, 6, 7 };
+            xyPlot1.Plotter.Reset();
+            xyPlot1.Plotter.Title = "";
+            xyPlot1.Plotter.LabelX = "Zeit / s";
+            xyPlot1.Plotter.LabelY1 = "Widerstand / MOhm";
+            XYPlotData resistance = XYPlotData.CreateData(0, .01, 5, (x) =>
+              {
+                  return 5 - Math.Exp(-x/1);
+              }).TranslateX(1);
+            xyPlot1.Plotter.AddPlot(resistance).HideFromLegend().SetColor("yellow");
+            xyPlot1.Plotter.GridLines = GridLineStyle.FullGrid;
+
+            xyPlot1.Plotter.HorizontalBackground = new ColorBand(times, new string[] { "#FFBC1F", "#ACF39D", "#FFBC1F", "black" });
+            xyPlot1.Plotter.HorizontalBackground.Interpolate = false;
+
+            xyPlot1.Plotter.RangeY1 = new ChartRange(0, 6);
+            xyPlot1.Plotter.RangeX = new ChartRange(0, 7);
+
+            xyPlot1.Redraw();
+        }
+
+        private void iSOPrüfungIToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            double[] times = new double[] { 0, 1, 6, 7 };
+            xyPlot1.Plotter.Reset();
+            xyPlot1.Plotter.Title = "";
+            xyPlot1.Plotter.LabelX = "Zeit / s";
+            xyPlot1.Plotter.LabelY1 = "Strom / µA";
+            XYPlotData current1 = new XYPlotData(new double[] { 0, 1 }, new double[] { 0, 250 });
+            XYPlotData current3 = new XYPlotData(new double[] { 6, 7 }, new double[] { 200, 0 });
+            XYPlotData current2 = XYPlotData.CreateData(0, .01, 5, (x) =>
+            {
+                return 200 + 50 * Math.Exp(-x / 1);
+            }).TranslateX(1);
+            xyPlot1.Plotter.AddPlot(current1 & current2 & current3).HideFromLegend().SetColor("#F41915");
+            xyPlot1.Plotter.GridLines = GridLineStyle.FullGrid;
+
+            xyPlot1.Plotter.HorizontalBackground = new ColorBand(times, new string[] { "#FFBC1F", "#ACF39D", "#FFBC1F", "black" });
+            xyPlot1.Plotter.HorizontalBackground.Interpolate = false;
+
+            xyPlot1.Plotter.RangeY1 = new ChartRange(0, 300);
+            xyPlot1.Plotter.RangeX = new ChartRange(0, 7);
+
+            xyPlot1.Redraw();
+        }
     }
 }

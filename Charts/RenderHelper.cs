@@ -36,15 +36,47 @@ namespace ChartPlotter
                     x1 += rect.Left;
                     x2 += rect.Left;
                     RectangleF prect = new RectangleF((float)x1, rect.Y, (float)(x2 - x1), rect.Height);
-                    using (LinearGradientBrush b = new LinearGradientBrush(new PointF((float)x1, 0), new PointF((float)x2, 0), c1, c2))
+                    Brush b;
+                    if (band.Interpolate)
+                    {
+                        b = new LinearGradientBrush(new PointF((float)x1, 0), new PointF((float)x2, 0), c1, c2);
+                    }
+                    else
+                    {
+                        b = new SolidBrush(c1);
+                    }
+                    g.FillRectangle(b, prect);
+                    b.Dispose();
+                }
+            }
+
+            if(band.Extend)
+            {
+                double left = band.Points.First();
+                double right = band.Points.Last();
+                left -= range.Min;
+                right -= range.Min;
+                left *= scale;
+                right *= scale;
+                left += rect.Left;
+                right += rect.Left;
+                if (left > rect.Left)
+                {
+                    RectangleF prect = new RectangleF((float)rect.Left, rect.Top, (float)(left - rect.Left), rect.Height);
+                    using (Brush b = new SolidBrush(band.Colors.First()))
+                    {
+                        g.FillRectangle(b, prect);
+                    }
+                }
+                if(right < rect.Right)
+                {
+                    RectangleF prect = new RectangleF((float)right, rect.Top, (float)(rect.Right - right), rect.Height);
+                    using (Brush b = new SolidBrush(band.Colors.Last()))
                     {
                         g.FillRectangle(b, prect);
                     }
                 }
             }
-
-            //using(SolidBrush brush = new SolidBrush(band.Colors[0]))
-            //    g.FillRectangle(brush, rect);
         }
     }
 }

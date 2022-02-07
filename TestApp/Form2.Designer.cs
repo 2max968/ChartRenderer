@@ -45,6 +45,11 @@ namespace TestApp
             this.dynamicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.circleToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.colorBandToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.iSOHVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.iSOPrüfungToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.iSOPrüfungIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.iSOPrüfungRToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -80,7 +85,9 @@ namespace TestApp
             this.naNToolStripMenuItem,
             this.bigNumbersToolStripMenuItem,
             this.manyColorsToolStripMenuItem,
-            this.emptyToolStripMenuItem});
+            this.emptyToolStripMenuItem,
+            this.colorBandToolStripMenuItem,
+            this.iSOHVToolStripMenuItem});
             this.plotsToolStripMenuItem.Name = "plotsToolStripMenuItem";
             this.plotsToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
             this.plotsToolStripMenuItem.Text = "Plots";
@@ -88,56 +95,56 @@ namespace TestApp
             // exponensialToolStripMenuItem
             // 
             this.exponensialToolStripMenuItem.Name = "exponensialToolStripMenuItem";
-            this.exponensialToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.exponensialToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exponensialToolStripMenuItem.Text = "Exponential";
             this.exponensialToolStripMenuItem.Click += new System.EventHandler(this.exponensialToolStripMenuItem_Click);
             // 
             // circleToolStripMenuItem
             // 
             this.circleToolStripMenuItem.Name = "circleToolStripMenuItem";
-            this.circleToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.circleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.circleToolStripMenuItem.Text = "Circle";
             this.circleToolStripMenuItem.Click += new System.EventHandler(this.circleToolStripMenuItem_Click);
             // 
             // oscillationToolStripMenuItem
             // 
             this.oscillationToolStripMenuItem.Name = "oscillationToolStripMenuItem";
-            this.oscillationToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.oscillationToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.oscillationToolStripMenuItem.Text = "Oscillation";
             this.oscillationToolStripMenuItem.Click += new System.EventHandler(this.oscillationToolStripMenuItem_Click);
             // 
             // dualScaleToolStripMenuItem
             // 
             this.dualScaleToolStripMenuItem.Name = "dualScaleToolStripMenuItem";
-            this.dualScaleToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.dualScaleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.dualScaleToolStripMenuItem.Text = "Dual Scale";
             this.dualScaleToolStripMenuItem.Click += new System.EventHandler(this.dualScaleToolStripMenuItem_Click);
             // 
             // naNToolStripMenuItem
             // 
             this.naNToolStripMenuItem.Name = "naNToolStripMenuItem";
-            this.naNToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.naNToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.naNToolStripMenuItem.Text = "NaN";
             this.naNToolStripMenuItem.Click += new System.EventHandler(this.naNToolStripMenuItem_Click);
             // 
             // bigNumbersToolStripMenuItem
             // 
             this.bigNumbersToolStripMenuItem.Name = "bigNumbersToolStripMenuItem";
-            this.bigNumbersToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.bigNumbersToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.bigNumbersToolStripMenuItem.Text = "Big Numbers";
             this.bigNumbersToolStripMenuItem.Click += new System.EventHandler(this.bigNumbersToolStripMenuItem_Click);
             // 
             // manyColorsToolStripMenuItem
             // 
             this.manyColorsToolStripMenuItem.Name = "manyColorsToolStripMenuItem";
-            this.manyColorsToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.manyColorsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.manyColorsToolStripMenuItem.Text = "Many Colors";
             this.manyColorsToolStripMenuItem.Click += new System.EventHandler(this.manyColorsToolStripMenuItem_Click);
             // 
             // emptyToolStripMenuItem
             // 
             this.emptyToolStripMenuItem.Name = "emptyToolStripMenuItem";
-            this.emptyToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.emptyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.emptyToolStripMenuItem.Text = "Empty";
             this.emptyToolStripMenuItem.Click += new System.EventHandler(this.emptyToolStripMenuItem_Click);
             // 
@@ -152,7 +159,7 @@ namespace TestApp
             // readToolStripMenuItem
             // 
             this.readToolStripMenuItem.Name = "readToolStripMenuItem";
-            this.readToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.readToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
             this.readToolStripMenuItem.Text = "Read";
             this.readToolStripMenuItem.Click += new System.EventHandler(this.readToolStripMenuItem_Click);
             // 
@@ -178,6 +185,44 @@ namespace TestApp
             this.circleToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.circleToolStripMenuItem1.Text = "Circle";
             this.circleToolStripMenuItem1.Click += new System.EventHandler(this.circleToolStripMenuItem1_Click);
+            // 
+            // colorBandToolStripMenuItem
+            // 
+            this.colorBandToolStripMenuItem.Name = "colorBandToolStripMenuItem";
+            this.colorBandToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.colorBandToolStripMenuItem.Text = "Color Band";
+            this.colorBandToolStripMenuItem.Click += new System.EventHandler(this.colorBandToolStripMenuItem_Click);
+            // 
+            // iSOHVToolStripMenuItem
+            // 
+            this.iSOHVToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.iSOPrüfungToolStripMenuItem,
+            this.iSOPrüfungIToolStripMenuItem,
+            this.iSOPrüfungRToolStripMenuItem});
+            this.iSOHVToolStripMenuItem.Name = "iSOHVToolStripMenuItem";
+            this.iSOHVToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.iSOHVToolStripMenuItem.Text = "ISOHV";
+            // 
+            // iSOPrüfungToolStripMenuItem
+            // 
+            this.iSOPrüfungToolStripMenuItem.Name = "iSOPrüfungToolStripMenuItem";
+            this.iSOPrüfungToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.iSOPrüfungToolStripMenuItem.Text = "ISO Prüfung V";
+            this.iSOPrüfungToolStripMenuItem.Click += new System.EventHandler(this.iSOPrüfungToolStripMenuItem_Click);
+            // 
+            // iSOPrüfungIToolStripMenuItem
+            // 
+            this.iSOPrüfungIToolStripMenuItem.Name = "iSOPrüfungIToolStripMenuItem";
+            this.iSOPrüfungIToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.iSOPrüfungIToolStripMenuItem.Text = "ISO Prüfung I";
+            this.iSOPrüfungIToolStripMenuItem.Click += new System.EventHandler(this.iSOPrüfungIToolStripMenuItem_Click);
+            // 
+            // iSOPrüfungRToolStripMenuItem
+            // 
+            this.iSOPrüfungRToolStripMenuItem.Name = "iSOPrüfungRToolStripMenuItem";
+            this.iSOPrüfungRToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.iSOPrüfungRToolStripMenuItem.Text = "ISO Prüfung R";
+            this.iSOPrüfungRToolStripMenuItem.Click += new System.EventHandler(this.iSOPrüfungRToolStripMenuItem_Click);
             // 
             // Form2
             // 
@@ -214,5 +259,10 @@ namespace TestApp
         private System.Windows.Forms.ToolStripMenuItem dynamicToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem circleToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem colorBandToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem iSOHVToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem iSOPrüfungToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem iSOPrüfungIToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem iSOPrüfungRToolStripMenuItem;
     }
 }

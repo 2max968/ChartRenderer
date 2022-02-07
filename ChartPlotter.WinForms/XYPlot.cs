@@ -66,6 +66,12 @@ namespace ChartPlotter.WinForms
             this.MouseWheel += XYPlot_MouseWheel;
         }
 
+        public XYPlot(XYPlotRenderer plotter)
+            : this()
+        {
+            Plotter = plotter;
+        }
+
         private void XYPlot_MouseWheel(object sender, MouseEventArgs e)
         {
             Plotter.Zoom(Math.Pow(1.1, -e.Delta / 20.0), Math.Pow(1.1, -e.Delta / 20.0));
