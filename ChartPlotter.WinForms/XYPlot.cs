@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 
 namespace ChartPlotter.WinForms
 {
@@ -206,15 +207,20 @@ namespace ChartPlotter.WinForms
 
         private void saveAsImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(sfdImage.ShowDialog() == DialogResult.OK)
+            Thread thr = new Thread(delegate ()
             {
-                Plotter.Scaling *= 2;
-                using (Bitmap bmp = Plotter.RenderChart(pbGraph.Width * 2, pbGraph.Height * 2))
+                if (sfdImage.ShowDialog() == DialogResult.OK)
                 {
-                    Plotter.Scaling /= 2;
-                    bmp.Save(sfdImage.FileName);
+                    Plotter.Scaling *= 2;
+                    using (Bitmap bmp = Plotter.RenderChart(pbGraph.Width * 2, pbGraph.Height * 2))
+                    {
+                        Plotter.Scaling /= 2;
+                        bmp.Save(sfdImage.FileName);
+                    }
                 }
-            }
+            });
+            thr.SetApartmentState(ApartmentState.STA);
+            thr.Start();
         }
 
         private void editGraphsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -243,7 +249,9 @@ namespace ChartPlotter.WinForms
             using (Bitmap bmp = Plotter.RenderChart(pbGraph.Width * 2, pbGraph.Height * 2))
             {
                 Plotter.Scaling /= 2;
-                Clipboard.SetImage(bmp);
+                Thread thr = new Thread(() => Clipboard.SetImage(bmp));
+                thr.SetApartmentState(ApartmentState.STA);
+                thr.Start();
             }
         }
 

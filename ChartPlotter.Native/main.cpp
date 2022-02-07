@@ -147,6 +147,7 @@ int main()
 	setTitleW(plotter, L"Sinus");
 	setPlotLabelW(plotter, L"time / s", NULL);
 	setPlotTitle(sine, L"useless info");
+	setPlotColorA(sine, "orange");
 	showPlot(plotter);
 }
 #else
