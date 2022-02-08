@@ -284,7 +284,7 @@ namespace TestApp
             xyPlot1.Plotter.LabelX = "Zeit / s";
             xyPlot1.Plotter.LabelY1 = "Spannung / V";
             XYPlotData voltage = new XYPlotData(times, new double[] { 250, 1000, 1000, 259 });
-            xyPlot1.Plotter.AddPlot(voltage).HideFromLegend().SetColor("#00CAE0");
+            xyPlot1.Plotter.AddPlot(voltage).HideFromLegend();
             xyPlot1.Plotter.GridLines = GridLineStyle.FullGrid;
 
             xyPlot1.Plotter.HorizontalBackground = new ColorBand(times, new string[] { "#FFBC1F", "#ACF39D", "#FFBC1F", "black" });
@@ -342,5 +342,15 @@ namespace TestApp
 
             xyPlot1.Redraw();
         }
-    }
+
+		private void imageLabelsToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+            string title = "iVBORw0KGgoAAAANSUhEUgAAANsAAAAqCAIAAAC1L7mrAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAJASURBVHhe7ZJRkoMwDEN7/0t3DXgYNtsGkki2k/X7aoDYkqrXO2nn9crcWGSyPWQjeWSyPWQjeWSyPWQjeWSyPWQjebCSXfs/m9ddfOXZyB6ykTyykT1kI3lkI3vIRvKo6RP1Tei1neK4GPO6i68cqW9rJRSdG4/I2urEV87Sx3a+FfaCPrXCfiOK+MonbqT+2pHjgZ7JmC2CE185S5+X862V/NVe7saJr3y1Rh6wt2cjeazZSEEE8DS4u+smvvLF/7OtlTt6BgEfaEZ85Ys3kkQ2kgdF39p1FLKRPLKRPWQjeazQSFl3oGcEOvE7+t1sxFe+SCP1lxVbJS/o0xmIr3b6RrpEXCyVYxN67Tf67hP6BQLsNAYUfZa2XSIeXFpcl2NlYOVVB9hpDCj6LG27RDy49Hr9dhTWoEtcTVD0Wdp2iXhw6fX67SisQZe4mqDos7TtEvHg0uv121FYgy5xNYHXZ+zZJeLBpef1J3OwBl3iagKvz9izS8TjS2XCgZ6/8+Sb52CnMcDrM/bsEjFk6ZMhcHcucTWB12fp2Stf2Tu++smQ8S0F8IFw8PosPTvmO7j6vC4/KqMqr7phzAQyt2HfcEe2F3e/jWIY9A3tlrkNBw+3wl/l8uRAzzvFEQJjJpC5DQcPt0JFubw60UdQSGNR4MVZGg4ebgVH5dnI5APjKXVPyEYmHxhMyfc6lWykD5JSgb54Ruv3BYPXqWR7ovCwJVt5EX2CDGGQjQzE0bY6+ikC7DQU2cj/S8RGvt8/cJIBtU+SP48AAAAASUVORK5CYII=";
+            xyPlot1.Plotter.Title = "base64:" + title;
+            xyPlot1.Plotter.LabelX = "base64:" + title;
+            //xyPlot1.Plotter.LabelY1 = "base64:" + title;
+            //xyPlot1.Plotter.LabelY2 = "base64:" + title;
+            xyPlot1.Redraw();
+        }
+	}
 }

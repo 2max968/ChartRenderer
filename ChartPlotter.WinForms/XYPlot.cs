@@ -21,6 +21,7 @@ namespace ChartPlotter.WinForms
         List<GuiElements.XYGraphSetp> graphEdits = new List<GuiElements.XYGraphSetp>();
         MouseMoveMode mmm = MouseMoveMode.None;
         Font ftApTitle, ftApLegend, ftAp;
+        ToolTip ttMousePos = null;
 
         /*public override Color BackColor 
         {
@@ -154,6 +155,31 @@ namespace ChartPlotter.WinForms
                 Plotter.Zoom(1, Math.Pow(1.1, dy / 2.0));
                 Redraw();
             }
+
+
+            Point rCursor = pbGraph.PointToClient(Cursor.Position);
+            var pointInfo = Plotter.GetClosestPoint(rCursor);
+            if (pointInfo != null && pointInfo.Distance < 10)
+            {
+                string text = "X: " + pointInfo.X + "\nY: " + pointInfo.Y;
+                if (pointInfo.PlotData.LegendVisible)
+                    text = pointInfo.PlotData.DataTitle + ":\n" + text;
+                if(ttMousePos == null)
+				{
+                    ttMousePos = new ToolTip();
+				}
+                ttMousePos.Show(text, pbGraph, rCursor.X + 16, rCursor.Y + 16);
+                Plotter.HighlightedPoint = pointInfo;
+                Redraw();
+            }
+            else if(ttMousePos != null)
+			{
+                ttMousePos.Hide(pbGraph);
+                ttMousePos.Dispose();
+                ttMousePos = null;
+                Plotter.HighlightedPoint = null;
+                Redraw();
+			}
             /*if (mousePos != null && e.Button == MouseButtons.Right)
             {
                 int dx = e.X - mousePos.Value.X;
@@ -181,9 +207,20 @@ namespace ChartPlotter.WinForms
                         {
                             return Plotter.RenderChart(w, h);
                         }
-                        catch
+                        catch(Exception ex)
                         {
-                            return null;
+                            Bitmap bmp = new Bitmap(w, h);
+                            using (var g = Graphics.FromImage(bmp))
+							{
+                                using (StringFormat sf = new StringFormat())
+								{
+                                    string errorText = ex.GetType().FullName + ": " + ex.Message + "\n";
+                                    sf.LineAlignment = StringAlignment.Center;
+                                    sf.Alignment = StringAlignment.Center;
+                                    g.DrawString(errorText, new Font("Courier New", 12), Brushes.Black, new Rectangle(0, 0, w, h), sf);
+								}
+							}
+                            return bmp;
                         }
                     });
                     renderTask.Start();

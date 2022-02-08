@@ -31,37 +31,37 @@
             this.components = new System.ComponentModel.Container();
             this.pbGraph = new System.Windows.Forms.PictureBox();
             this.ctxChart = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.rangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetRangeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.matchRangesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.saveAsImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.editGraphsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editAppearanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sfdImage = new System.Windows.Forms.SaveFileDialog();
             this.pnDataEdit = new System.Windows.Forms.Panel();
             this.flowEdit = new System.Windows.Forms.FlowLayoutPanel();
             this.btnEditCancel = new System.Windows.Forms.Button();
             this.btnEditOk = new System.Windows.Forms.Button();
-            this.rangeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.matchRangesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resetRangeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.editAppearanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnAppearance = new System.Windows.Forms.Panel();
+            this.btnApFontLegend = new System.Windows.Forms.Button();
+            this.cbLegend = new System.Windows.Forms.CheckBox();
+            this.btnApFontLabel = new System.Windows.Forms.Button();
+            this.btnApFontTitle = new System.Windows.Forms.Button();
+            this.btnApColor = new System.Windows.Forms.Button();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tbY = new System.Windows.Forms.TextBox();
+            this.tbX = new System.Windows.Forms.TextBox();
+            this.tbTitle = new System.Windows.Forms.TextBox();
             this.btnApOk = new System.Windows.Forms.Button();
             this.btnApCancel = new System.Windows.Forms.Button();
-            this.tbTitle = new System.Windows.Forms.TextBox();
-            this.tbX = new System.Windows.Forms.TextBox();
-            this.tbY = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.btnApColor = new System.Windows.Forms.Button();
             this.ctxColors = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.foregroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnApFontTitle = new System.Windows.Forms.Button();
-            this.btnApFontLabel = new System.Windows.Forms.Button();
-            this.cbLegend = new System.Windows.Forms.CheckBox();
-            this.btnApFontLegend = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbGraph)).BeginInit();
             this.ctxChart.SuspendLayout();
             this.pnDataEdit.SuspendLayout();
@@ -97,26 +97,66 @@
             this.ctxChart.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
             this.ctxChart.Size = new System.Drawing.Size(161, 126);
             // 
+            // rangeToolStripMenuItem
+            // 
+            this.rangeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.resetRangeToolStripMenuItem1,
+            this.matchRangesToolStripMenuItem});
+            this.rangeToolStripMenuItem.Name = "rangeToolStripMenuItem";
+            this.rangeToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.rangeToolStripMenuItem.Text = "Range";
+            // 
+            // resetRangeToolStripMenuItem1
+            // 
+            this.resetRangeToolStripMenuItem1.Name = "resetRangeToolStripMenuItem1";
+            this.resetRangeToolStripMenuItem1.Size = new System.Drawing.Size(149, 22);
+            this.resetRangeToolStripMenuItem1.Text = "Reset Range";
+            this.resetRangeToolStripMenuItem1.Click += new System.EventHandler(this.resetRangeToolStripMenuItem1_Click);
+            // 
+            // matchRangesToolStripMenuItem
+            // 
+            this.matchRangesToolStripMenuItem.Name = "matchRangesToolStripMenuItem";
+            this.matchRangesToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.matchRangesToolStripMenuItem.Text = "Match Ranges";
+            this.matchRangesToolStripMenuItem.Click += new System.EventHandler(this.matchRangesToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(157, 6);
+            // 
             // saveAsImageToolStripMenuItem
             // 
             this.saveAsImageToolStripMenuItem.Name = "saveAsImageToolStripMenuItem";
-            this.saveAsImageToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveAsImageToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.saveAsImageToolStripMenuItem.Text = "Save as Image";
             this.saveAsImageToolStripMenuItem.Click += new System.EventHandler(this.saveAsImageToolStripMenuItem_Click);
             // 
             // copyToolStripMenuItem
             // 
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.copyToolStripMenuItem.Text = "Copy";
             this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(157, 6);
             // 
             // editGraphsToolStripMenuItem
             // 
             this.editGraphsToolStripMenuItem.Name = "editGraphsToolStripMenuItem";
-            this.editGraphsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editGraphsToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.editGraphsToolStripMenuItem.Text = "Edit Graphs";
             this.editGraphsToolStripMenuItem.Click += new System.EventHandler(this.editGraphsToolStripMenuItem_Click);
+            // 
+            // editAppearanceToolStripMenuItem
+            // 
+            this.editAppearanceToolStripMenuItem.Name = "editAppearanceToolStripMenuItem";
+            this.editAppearanceToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.editAppearanceToolStripMenuItem.Text = "Edit Appearance";
+            this.editAppearanceToolStripMenuItem.Click += new System.EventHandler(this.editAppearanceToolStripMenuItem_Click);
             // 
             // sfdImage
             // 
@@ -167,46 +207,6 @@
             this.btnEditOk.UseVisualStyleBackColor = true;
             this.btnEditOk.Click += new System.EventHandler(this.btnEditOk_Click);
             // 
-            // rangeToolStripMenuItem
-            // 
-            this.rangeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.resetRangeToolStripMenuItem1,
-            this.matchRangesToolStripMenuItem});
-            this.rangeToolStripMenuItem.Name = "rangeToolStripMenuItem";
-            this.rangeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.rangeToolStripMenuItem.Text = "Range";
-            // 
-            // matchRangesToolStripMenuItem
-            // 
-            this.matchRangesToolStripMenuItem.Name = "matchRangesToolStripMenuItem";
-            this.matchRangesToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.matchRangesToolStripMenuItem.Text = "Match Ranges";
-            this.matchRangesToolStripMenuItem.Click += new System.EventHandler(this.matchRangesToolStripMenuItem_Click);
-            // 
-            // resetRangeToolStripMenuItem1
-            // 
-            this.resetRangeToolStripMenuItem1.Name = "resetRangeToolStripMenuItem1";
-            this.resetRangeToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.resetRangeToolStripMenuItem1.Text = "Reset Range";
-            this.resetRangeToolStripMenuItem1.Click += new System.EventHandler(this.resetRangeToolStripMenuItem1_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
-            // 
-            // editAppearanceToolStripMenuItem
-            // 
-            this.editAppearanceToolStripMenuItem.Name = "editAppearanceToolStripMenuItem";
-            this.editAppearanceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.editAppearanceToolStripMenuItem.Text = "Edit Appearance";
-            this.editAppearanceToolStripMenuItem.Click += new System.EventHandler(this.editAppearanceToolStripMenuItem_Click);
-            // 
             // pnAppearance
             // 
             this.pnAppearance.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -228,6 +228,108 @@
             this.pnAppearance.Size = new System.Drawing.Size(377, 194);
             this.pnAppearance.TabIndex = 3;
             this.pnAppearance.Visible = false;
+            // 
+            // btnApFontLegend
+            // 
+            this.btnApFontLegend.Location = new System.Drawing.Point(158, 77);
+            this.btnApFontLegend.Name = "btnApFontLegend";
+            this.btnApFontLegend.Size = new System.Drawing.Size(214, 23);
+            this.btnApFontLegend.TabIndex = 16;
+            this.btnApFontLegend.Text = "button2";
+            this.btnApFontLegend.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnApFontLegend.UseVisualStyleBackColor = true;
+            this.btnApFontLegend.Click += new System.EventHandler(this.btnApFontTitle_Click);
+            // 
+            // cbLegend
+            // 
+            this.cbLegend.AutoSize = true;
+            this.cbLegend.Location = new System.Drawing.Point(6, 81);
+            this.cbLegend.Name = "cbLegend";
+            this.cbLegend.Size = new System.Drawing.Size(92, 17);
+            this.cbLegend.TabIndex = 15;
+            this.cbLegend.Text = "Show Legend";
+            this.cbLegend.UseVisualStyleBackColor = true;
+            // 
+            // btnApFontLabel
+            // 
+            this.btnApFontLabel.Location = new System.Drawing.Point(158, 27);
+            this.btnApFontLabel.Name = "btnApFontLabel";
+            this.btnApFontLabel.Size = new System.Drawing.Size(214, 23);
+            this.btnApFontLabel.TabIndex = 14;
+            this.btnApFontLabel.Text = "button2";
+            this.btnApFontLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnApFontLabel.UseVisualStyleBackColor = true;
+            this.btnApFontLabel.Click += new System.EventHandler(this.btnApFontTitle_Click);
+            // 
+            // btnApFontTitle
+            // 
+            this.btnApFontTitle.Location = new System.Drawing.Point(158, 1);
+            this.btnApFontTitle.Name = "btnApFontTitle";
+            this.btnApFontTitle.Size = new System.Drawing.Size(214, 23);
+            this.btnApFontTitle.TabIndex = 13;
+            this.btnApFontTitle.Text = "button1";
+            this.btnApFontTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnApFontTitle.UseVisualStyleBackColor = true;
+            this.btnApFontTitle.Click += new System.EventHandler(this.btnApFontTitle_Click);
+            // 
+            // btnApColor
+            // 
+            this.btnApColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnApColor.Location = new System.Drawing.Point(6, 104);
+            this.btnApColor.Name = "btnApColor";
+            this.btnApColor.Size = new System.Drawing.Size(75, 23);
+            this.btnApColor.TabIndex = 12;
+            this.btnApColor.Text = "Colors";
+            this.btnApColor.UseVisualStyleBackColor = true;
+            this.btnApColor.Click += new System.EventHandler(this.btnApColor_Click);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(3, 58);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(43, 13);
+            this.label3.TabIndex = 11;
+            this.label3.Text = "Y Label";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 32);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(43, 13);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "X Label";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 6);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(27, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Title";
+            // 
+            // tbY
+            // 
+            this.tbY.Location = new System.Drawing.Point(52, 55);
+            this.tbY.Name = "tbY";
+            this.tbY.Size = new System.Drawing.Size(100, 20);
+            this.tbY.TabIndex = 8;
+            // 
+            // tbX
+            // 
+            this.tbX.Location = new System.Drawing.Point(52, 29);
+            this.tbX.Name = "tbX";
+            this.tbX.Size = new System.Drawing.Size(100, 20);
+            this.tbX.TabIndex = 7;
+            // 
+            // tbTitle
+            // 
+            this.tbTitle.Location = new System.Drawing.Point(52, 3);
+            this.tbTitle.Name = "tbTitle";
+            this.tbTitle.Size = new System.Drawing.Size(100, 20);
+            this.tbTitle.TabIndex = 6;
             // 
             // btnApOk
             // 
@@ -251,65 +353,6 @@
             this.btnApCancel.UseVisualStyleBackColor = true;
             this.btnApCancel.Click += new System.EventHandler(this.btnApCancel_Click);
             // 
-            // tbTitle
-            // 
-            this.tbTitle.Location = new System.Drawing.Point(52, 3);
-            this.tbTitle.Name = "tbTitle";
-            this.tbTitle.Size = new System.Drawing.Size(100, 20);
-            this.tbTitle.TabIndex = 6;
-            // 
-            // tbX
-            // 
-            this.tbX.Location = new System.Drawing.Point(52, 29);
-            this.tbX.Name = "tbX";
-            this.tbX.Size = new System.Drawing.Size(100, 20);
-            this.tbX.TabIndex = 7;
-            // 
-            // tbY
-            // 
-            this.tbY.Location = new System.Drawing.Point(52, 55);
-            this.tbY.Name = "tbY";
-            this.tbY.Size = new System.Drawing.Size(100, 20);
-            this.tbY.TabIndex = 8;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(3, 6);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(27, 13);
-            this.label1.TabIndex = 9;
-            this.label1.Text = "Title";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 32);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(43, 13);
-            this.label2.TabIndex = 10;
-            this.label2.Text = "X Label";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(3, 58);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(43, 13);
-            this.label3.TabIndex = 11;
-            this.label3.Text = "Y Label";
-            // 
-            // btnApColor
-            // 
-            this.btnApColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnApColor.Location = new System.Drawing.Point(6, 104);
-            this.btnApColor.Name = "btnApColor";
-            this.btnApColor.Size = new System.Drawing.Size(75, 23);
-            this.btnApColor.TabIndex = 12;
-            this.btnApColor.Text = "Colors";
-            this.btnApColor.UseVisualStyleBackColor = true;
-            this.btnApColor.Click += new System.EventHandler(this.btnApColor_Click);
-            // 
             // ctxColors
             // 
             this.ctxColors.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -331,49 +374,6 @@
             this.backgroundToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.backgroundToolStripMenuItem.Text = "Background";
             this.backgroundToolStripMenuItem.Click += new System.EventHandler(this.backgroundToolStripMenuItem_Click);
-            // 
-            // btnApFontTitle
-            // 
-            this.btnApFontTitle.Location = new System.Drawing.Point(158, 1);
-            this.btnApFontTitle.Name = "btnApFontTitle";
-            this.btnApFontTitle.Size = new System.Drawing.Size(214, 23);
-            this.btnApFontTitle.TabIndex = 13;
-            this.btnApFontTitle.Text = "button1";
-            this.btnApFontTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnApFontTitle.UseVisualStyleBackColor = true;
-            this.btnApFontTitle.Click += new System.EventHandler(this.btnApFontTitle_Click);
-            // 
-            // btnApFontLabel
-            // 
-            this.btnApFontLabel.Location = new System.Drawing.Point(158, 27);
-            this.btnApFontLabel.Name = "btnApFontLabel";
-            this.btnApFontLabel.Size = new System.Drawing.Size(214, 23);
-            this.btnApFontLabel.TabIndex = 14;
-            this.btnApFontLabel.Text = "button2";
-            this.btnApFontLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnApFontLabel.UseVisualStyleBackColor = true;
-            this.btnApFontLabel.Click += new System.EventHandler(this.btnApFontTitle_Click);
-            // 
-            // cbLegend
-            // 
-            this.cbLegend.AutoSize = true;
-            this.cbLegend.Location = new System.Drawing.Point(6, 81);
-            this.cbLegend.Name = "cbLegend";
-            this.cbLegend.Size = new System.Drawing.Size(92, 17);
-            this.cbLegend.TabIndex = 15;
-            this.cbLegend.Text = "Show Legend";
-            this.cbLegend.UseVisualStyleBackColor = true;
-            // 
-            // btnApFontLegend
-            // 
-            this.btnApFontLegend.Location = new System.Drawing.Point(158, 77);
-            this.btnApFontLegend.Name = "btnApFontLegend";
-            this.btnApFontLegend.Size = new System.Drawing.Size(214, 23);
-            this.btnApFontLegend.TabIndex = 16;
-            this.btnApFontLegend.Text = "button2";
-            this.btnApFontLegend.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnApFontLegend.UseVisualStyleBackColor = true;
-            this.btnApFontLegend.Click += new System.EventHandler(this.btnApFontTitle_Click);
             // 
             // XYPlot
             // 
@@ -429,5 +429,5 @@
         private System.Windows.Forms.Button btnApFontTitle;
         private System.Windows.Forms.Button btnApFontLegend;
         private System.Windows.Forms.CheckBox cbLegend;
-    }
+	}
 }

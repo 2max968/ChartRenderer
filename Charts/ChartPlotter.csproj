@@ -50,6 +50,7 @@
     <Compile Include="CSVTable.cs" />
     <Compile Include="GridLineStyle.cs" />
     <Compile Include="PlotColors.cs" />
+    <Compile Include="PointInfo.cs" />
     <Compile Include="RenderHelper.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="XYPlotDataCollection.cs" />

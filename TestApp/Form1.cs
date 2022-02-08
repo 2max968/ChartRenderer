@@ -98,12 +98,6 @@ namespace TestApp
                 renderer.Zoom(Math.Pow(1.1, -dx / 2.0), Math.Pow(1.1, dy / 2.0));
                 render();
             }
-
-            var info = renderer.GetPointInfo(e.X, e.Y);
-            if(info != null)
-            {
-                lblPointerInfo.Text = $"X: {info.X.RoundToSignificantDigits(4)}; Y: {info.Y.RoundToSignificantDigits(4)}";
-            }
         }
 
         async void render()

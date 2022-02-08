@@ -40,16 +40,17 @@ namespace TestApp
             this.bigNumbersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.manyColorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.emptyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.cSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.readToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dynamicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.circleToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.colorBandToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iSOHVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iSOPrüfungToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iSOPrüfungIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iSOPrüfungRToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.cSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.readToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dynamicToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.circleToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.imageLabelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -87,7 +88,8 @@ namespace TestApp
             this.manyColorsToolStripMenuItem,
             this.emptyToolStripMenuItem,
             this.colorBandToolStripMenuItem,
-            this.iSOHVToolStripMenuItem});
+            this.iSOHVToolStripMenuItem,
+            this.imageLabelsToolStripMenuItem});
             this.plotsToolStripMenuItem.Name = "plotsToolStripMenuItem";
             this.plotsToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
             this.plotsToolStripMenuItem.Text = "Plots";
@@ -148,44 +150,6 @@ namespace TestApp
             this.emptyToolStripMenuItem.Text = "Empty";
             this.emptyToolStripMenuItem.Click += new System.EventHandler(this.emptyToolStripMenuItem_Click);
             // 
-            // cSVToolStripMenuItem
-            // 
-            this.cSVToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.readToolStripMenuItem});
-            this.cSVToolStripMenuItem.Name = "cSVToolStripMenuItem";
-            this.cSVToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
-            this.cSVToolStripMenuItem.Text = "CSV";
-            // 
-            // readToolStripMenuItem
-            // 
-            this.readToolStripMenuItem.Name = "readToolStripMenuItem";
-            this.readToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
-            this.readToolStripMenuItem.Text = "Read";
-            this.readToolStripMenuItem.Click += new System.EventHandler(this.readToolStripMenuItem_Click);
-            // 
-            // dynamicToolStripMenuItem
-            // 
-            this.dynamicToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.sineToolStripMenuItem,
-            this.circleToolStripMenuItem1});
-            this.dynamicToolStripMenuItem.Name = "dynamicToolStripMenuItem";
-            this.dynamicToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
-            this.dynamicToolStripMenuItem.Text = "Dynamic";
-            // 
-            // sineToolStripMenuItem
-            // 
-            this.sineToolStripMenuItem.Name = "sineToolStripMenuItem";
-            this.sineToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.sineToolStripMenuItem.Text = "Sine";
-            this.sineToolStripMenuItem.Click += new System.EventHandler(this.sineToolStripMenuItem_Click);
-            // 
-            // circleToolStripMenuItem1
-            // 
-            this.circleToolStripMenuItem1.Name = "circleToolStripMenuItem1";
-            this.circleToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
-            this.circleToolStripMenuItem1.Text = "Circle";
-            this.circleToolStripMenuItem1.Click += new System.EventHandler(this.circleToolStripMenuItem1_Click);
-            // 
             // colorBandToolStripMenuItem
             // 
             this.colorBandToolStripMenuItem.Name = "colorBandToolStripMenuItem";
@@ -223,6 +187,51 @@ namespace TestApp
             this.iSOPrüfungRToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.iSOPrüfungRToolStripMenuItem.Text = "ISO Prüfung R";
             this.iSOPrüfungRToolStripMenuItem.Click += new System.EventHandler(this.iSOPrüfungRToolStripMenuItem_Click);
+            // 
+            // cSVToolStripMenuItem
+            // 
+            this.cSVToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.readToolStripMenuItem});
+            this.cSVToolStripMenuItem.Name = "cSVToolStripMenuItem";
+            this.cSVToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.cSVToolStripMenuItem.Text = "CSV";
+            // 
+            // readToolStripMenuItem
+            // 
+            this.readToolStripMenuItem.Name = "readToolStripMenuItem";
+            this.readToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.readToolStripMenuItem.Text = "Read";
+            this.readToolStripMenuItem.Click += new System.EventHandler(this.readToolStripMenuItem_Click);
+            // 
+            // dynamicToolStripMenuItem
+            // 
+            this.dynamicToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.sineToolStripMenuItem,
+            this.circleToolStripMenuItem1});
+            this.dynamicToolStripMenuItem.Name = "dynamicToolStripMenuItem";
+            this.dynamicToolStripMenuItem.Size = new System.Drawing.Size(66, 20);
+            this.dynamicToolStripMenuItem.Text = "Dynamic";
+            // 
+            // sineToolStripMenuItem
+            // 
+            this.sineToolStripMenuItem.Name = "sineToolStripMenuItem";
+            this.sineToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
+            this.sineToolStripMenuItem.Text = "Sine";
+            this.sineToolStripMenuItem.Click += new System.EventHandler(this.sineToolStripMenuItem_Click);
+            // 
+            // circleToolStripMenuItem1
+            // 
+            this.circleToolStripMenuItem1.Name = "circleToolStripMenuItem1";
+            this.circleToolStripMenuItem1.Size = new System.Drawing.Size(104, 22);
+            this.circleToolStripMenuItem1.Text = "Circle";
+            this.circleToolStripMenuItem1.Click += new System.EventHandler(this.circleToolStripMenuItem1_Click);
+            // 
+            // imageLabelsToolStripMenuItem
+            // 
+            this.imageLabelsToolStripMenuItem.Name = "imageLabelsToolStripMenuItem";
+            this.imageLabelsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.imageLabelsToolStripMenuItem.Text = "Image Labels";
+            this.imageLabelsToolStripMenuItem.Click += new System.EventHandler(this.imageLabelsToolStripMenuItem_Click);
             // 
             // Form2
             // 
@@ -264,5 +273,6 @@ namespace TestApp
         private System.Windows.Forms.ToolStripMenuItem iSOPrüfungToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem iSOPrüfungIToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem iSOPrüfungRToolStripMenuItem;
-    }
+		private System.Windows.Forms.ToolStripMenuItem imageLabelsToolStripMenuItem;
+	}
 }

@@ -1,0 +1,35 @@
+﻿@page "/"
+@using ChartPlotter
+@using System.Drawing
+
+<PageTitle>Index</PageTitle>
+
+<img style="width:600px;height:400px" src=@imgUrl />
+
+@code{
+	XYPlotRenderer plotter;
+	string imgUrl = "";
+
+	void init()
+	{
+		plotter = new XYPlotRenderer();
+	}
+
+	void render()
+	{
+		Bitmap bmp = plotter.RenderChart(600, 400);
+		MemoryStream ms = new MemoryStream();
+		bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+		string base64 = Convert.ToBase64String(ms.ToArray());
+		ms.Dispose();
+		bmp.Dispose();
+
+		imgUrl = "data:image/png;base64," + base64;
+	}
+
+	protected override void OnInitialized()
+	{
+		init();
+		render();
+	}
+}

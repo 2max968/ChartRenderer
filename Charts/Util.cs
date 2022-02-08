@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ChartPlotter
 {
-    public static class Util
+    internal static class Util
     {
         public static double RoundToSignificantDigits(this double value, int digits)
         {
@@ -107,5 +108,32 @@ namespace ChartPlotter
         {
             return !double.IsNaN(val) && !double.IsInfinity(val) && !double.IsPositiveInfinity(val) && !double.IsNegativeInfinity(val);
         }
+
+        public static Bitmap BmpFromBase64(string base64)
+		{
+            if (!base64.StartsWith("base64:"))
+                return null;
+            try
+            {
+                byte[] buffer = Convert.FromBase64String(base64.Substring("base64:".Length));
+                using (var ms = new MemoryStream(buffer))
+                {
+                    using (var tmp = new Bitmap(ms))
+                    {
+                        return new Bitmap(tmp);
+                    }
+                }
+            }
+            catch
+            {
+                Bitmap bmp = new Bitmap(300, 40);
+                using (Graphics g = Graphics.FromImage(bmp))
+                {
+                    g.Clear(Color.White);
+                    g.DrawString("Error in base64 image", new Font("Courier New", 12), Brushes.Red, 4, 4);
+                }
+                return bmp;
+            }
+		}
     }
 }

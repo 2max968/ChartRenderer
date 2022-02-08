@@ -43,6 +43,7 @@ namespace ChartPlotter
         [Category("Data")] public float ScaleSubdivisionY1 { get; set; } = 1;
         [Category("Data")] public float ScaleSubdivisionY2 { get; set; } = 1;
         [Category("Background")] public ColorBand HorizontalBackground { get; set; } = new ColorBand();
+        [Category("Data")] public XYPointInfo HighlightedPoint { get; set; } = null;
         int colorIndex = 0;
 
         /// <summary>
@@ -85,6 +86,11 @@ namespace ChartPlotter
             var yscalestep2 = getStepWidth(yrange2) / ScaleSubdivisionY2;
             bool secondPlot = HasSecondPlot();
 
+            Bitmap titleBmp = Util.BmpFromBase64(Title);
+            Bitmap labelXBmp = Util.BmpFromBase64(LabelX);
+            Bitmap labelY1Bmp = Util.BmpFromBase64(LabelY1);
+            Bitmap labelY2Bmp = Util.BmpFromBase64(LabelY2);
+
             Bitmap bmp = new Bitmap(width, height);
             using (Graphics g = Graphics.FromImage(bmp))
             {
@@ -95,11 +101,17 @@ namespace ChartPlotter
                 var xtextheight = g.MeasureString(LabelX, Font).Height;
                 var ytextheight = g.MeasureString(LabelY1, Font).Height;
                 var titleheight = g.MeasureString(Title, TitleFont).Height;
-                if(LabelY1 != "")
+                if (labelY1Bmp != null)
+                    chartBounds.Left += labelY1Bmp.Height;
+                else if(LabelY1 != "")
                     chartBounds.Left += (int)ytextheight;
-                if (LabelX != "")
+                if (labelXBmp != null)
+                    chartBounds.Bottom -= labelXBmp.Height;
+                else if (LabelX != "")
                     chartBounds.Bottom -= (int)xtextheight;
-                if (Title != "")
+                if (titleBmp != null)
+                    chartBounds.Top += titleBmp.Height;
+                else if (Title != "")
                     chartBounds.Top += (int)titleheight;
 
                 chartBounds.Bottom -= ScaleNumberSize;
@@ -162,17 +174,25 @@ namespace ChartPlotter
                     {
                         sf.Alignment = StringAlignment.Center;
                         sf.LineAlignment = StringAlignment.Center;
-                        if (LabelX != "")
+                        if(labelXBmp != null)
+                            g.DrawImage(labelXBmp, new PointF(chartBounds.Left + (chartBounds.Width - labelXBmp.Width) * .5f, rHeight - labelXBmp.Height));
+                        else if (LabelX != "")
                             g.DrawString(LabelX, Font, textBrush, new RectangleF(chartBounds.Left, rHeight - xtextheight, chartBounds.Width, xtextheight), sf);
                         g.RotateTransform(-90);
                         g.TranslateTransform(-rHeight, 0);
-                        if (LabelY1 != "")
-                            g.DrawString(LabelY1, Font, textBrush, new RectangleF(chartBounds.Top, 0, chartBounds.Height, ytextheight), sf);
-                        if (LabelY2 != "")
-                            g.DrawString(LabelY2, Font, textBrush, new RectangleF(chartBounds.Top, chartBounds.Right + (secondPlot ? ytextheight : 0), chartBounds.Height, ytextheight), sf);
+                        if(labelY1Bmp != null)
+                            g.DrawImage(labelY1Bmp, new PointF(rHeight - chartBounds.Bottom + (chartBounds.Height - labelY1Bmp.Width) * .5f, 0));
+                        else if (LabelY1 != "")
+                            g.DrawString(LabelY1, Font, textBrush, new RectangleF(rHeight - chartBounds.Bottom, 0, chartBounds.Height, ytextheight), sf);
+                        if(labelY2Bmp != null)
+                            g.DrawImage(labelY2Bmp, new PointF(rHeight - chartBounds.Bottom + (chartBounds.Height - labelY2Bmp.Width) * .5f, chartBounds.Right + labelY2Bmp.Height));
+                        else if (LabelY2 != "")
+                            g.DrawString(LabelY2, Font, textBrush, new RectangleF(rHeight - chartBounds.Bottom, chartBounds.Right + (secondPlot ? ytextheight : 0), chartBounds.Height, ytextheight), sf);
                         g.ResetTransform();
                         g.ScaleTransform(Scaling, Scaling);
-                        if (Title != "")
+                        if (titleBmp != null)
+                            g.DrawImage(titleBmp, new PointF((rWidth - titleBmp.Width) * .5f, 0));
+                        else if (Title != "")
                             g.DrawString(Title, TitleFont, textBrush, new RectangleF(0, 0, rWidth, chartBounds.Top), sf);
                     }
 
@@ -424,11 +444,25 @@ namespace ChartPlotter
                                 }
                             }
                         }
+
+                        if(HighlightedPoint != null)
+						{
+                            using(Pen p = new Pen(HighlightedPoint.PlotData.DataColor ?? Color.Black, HighlightedPoint.PlotData.Width))
+							{
+                                float x = transX(HighlightedPoint.X, xrange, chartBounds);
+                                float y = transY(HighlightedPoint.Y, HighlightedPoint.PlotData.PlotIndex == 0 ? yrange1 : yrange2, chartBounds);
+                                g.DrawEllipse(p, new RectangleF(x - 4, y - 4, 8, 8));
+                            }
+						}
                     }
                     g.ResetClip();
                 }
             }
 
+            titleBmp?.Dispose();
+            labelXBmp?.Dispose();
+            labelY1Bmp?.Dispose();
+            labelY2Bmp?.Dispose();
             LastRenderInfo = new XYPlotRenderInfo(xrange, yrange1, yrange2, chartBounds * Scaling);
             return bmp;
         }
@@ -538,7 +572,7 @@ namespace ChartPlotter
             return (float)((-y + yrange.Min) * chartBounds.Height / yrange.Range + chartBounds.Bottom);
         }
 
-        public XYPlotPointInfo GetPointInfo(double x, double y)
+        /*public XYPlotPointInfo GetPointInfo(double x, double y)
         {
             if (LastRenderInfo == null)
                 return null;
@@ -568,7 +602,7 @@ namespace ChartPlotter
                 Y = vy,
                 Graphs = plots
             };
-        }
+        }*/
 
         public void Zoom(double x, double y)
         {
@@ -617,5 +651,42 @@ namespace ChartPlotter
             LabelY2 = "";
 
         }
+
+        public XYPointInfo GetClosestPoint(PointF position)
+		{
+            XYPlotData closestPlot = null;
+            int closestPoint = 0;
+            double closestDistance = double.NaN;
+            PointF closestScreenPoint = default;
+
+            for(int i = 0; i < Data.Count; i++)
+			{
+                for(int j = 0; j < Data[i].Length; j++)
+				{
+                    double x = Data[i].DataX[j];
+                    double y = Data[i].DataY[j];
+                    if (double.IsNaN(x) || double.IsNaN(y))
+                        continue;
+                    float sX = transX(x, LastRenderInfo.RangeX, LastRenderInfo.ChartBounds);
+                    float sY = transY(y, (Data[i].PlotIndex == 0) ? LastRenderInfo.RangeY1 : LastRenderInfo.RangeY2, LastRenderInfo.ChartBounds);
+
+                    float dx = (sX - position.X);
+                    float dy = (sY - position.Y);
+                    double dist = Math.Sqrt(dx * dx + dy * dy);
+
+                    if(closestPlot == null || dist < closestDistance)
+					{
+                        closestPlot = Data[i];
+                        closestPoint = j;
+                        closestDistance = dist;
+                        closestScreenPoint = new PointF(sX, sY);
+					}
+				}
+			}
+
+            if (closestPlot == null)
+                return null;
+            return new XYPointInfo(closestPlot, closestPoint, closestScreenPoint, (float)closestDistance);
+		}
     }
 }
