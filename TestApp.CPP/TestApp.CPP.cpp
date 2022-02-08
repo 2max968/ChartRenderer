@@ -24,6 +24,7 @@ int main()
 
     setPlotterColor(plotter, colorFromNameA("white"), colorFromNameA("black"));
     addPlotData(plotter, circle);
+    setPlotterLabelW(plotter, L"Winkel / \\[Omega]", L"Winkel / \\[omega]");
 
     showPlotW(plotter);
 }

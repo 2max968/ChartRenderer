@@ -135,5 +135,11 @@ namespace ChartPlotter
                 return bmp;
             }
 		}
+
+        public static void Cleanup<T>(ref T obj) where T : class, IDisposable
+		{
+            obj?.Dispose();
+            obj = null;
+		}
     }
 }

@@ -134,7 +134,25 @@ DLLEXPORT(void) setPlotterTitleW(HPLOTTER plotter, const wchar_t* title)
 	(*plotter)->Title = str;
 }
 
+DLLEXPORT(void) setPlotterTitleA(HPLOTTER plotter, const char* title)
+{
+	if (!checkHandle(plotter))
+		return;
+	auto str = gcnew String(title);
+	(*plotter)->Title = str;
+}
+
 DLLEXPORT(void) setPlotterLabelW(HPLOTTER plotter, const wchar_t* labelX, const wchar_t* labelY)
+{
+	if (!checkHandle(plotter))
+		return;
+	auto lx = gcnew String(labelX);
+	(*plotter)->LabelX = lx;
+	auto ly = gcnew String(labelY);
+	(*plotter)->LabelY1 = ly;
+}
+
+DLLEXPORT(void) setPlotterLabelA(HPLOTTER plotter, const char* labelX, const char* labelY)
 {
 	if (!checkHandle(plotter))
 		return;
@@ -152,7 +170,23 @@ DLLEXPORT(void) setPlotterLabelY2W(HPLOTTER plotter, const wchar_t* label)
 	(*plotter)->LabelY2 = str;
 }
 
+DLLEXPORT(void) setPlotterLabelY2A(HPLOTTER plotter, const char* label)
+{
+	if (!checkHandle(plotter))
+		return;
+	auto str = gcnew String(label);
+	(*plotter)->LabelY2 = str;
+}
+
 DLLEXPORT(void) setPlotTitleW(HPLOTDATA plot, const wchar_t* title)
+{
+	if (!checkHandle(plot))
+		return;
+	auto str = gcnew String(title);
+	(*plot)->DataTitle = str;
+}
+
+DLLEXPORT(void) setPlotTitleA(HPLOTDATA plot, const char* title)
 {
 	if (!checkHandle(plot))
 		return;
@@ -175,6 +209,21 @@ DLLEXPORT(void) setPlotStyle(HPLOTDATA plot, char type)
 }
 
 DLLEXPORT(void) showPlotW(HPLOTTER plotter, const wchar_t* windowTitle)
+{
+	String^ title = nullptr;
+	if (windowTitle != NULL)
+		title = gcnew String(windowTitle);
+	if (checkHandle(plotter))
+	{
+		XYPlotWindow::ShowWindow(*plotter, title);
+	}
+	else
+	{
+		MessageBox::Show(nullptr, "Invalid Handle in plot", "Plotter", MessageBoxButtons::OK, MessageBoxIcon::Error);
+	}
+}
+
+DLLEXPORT(void) showPlotA(HPLOTTER plotter, const char* windowTitle)
 {
 	String^ title = nullptr;
 	if (windowTitle != NULL)

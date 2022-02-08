@@ -16,12 +16,70 @@ namespace ChartPlotter
         ChartRange rangeY1 = new ChartRange();
         ChartRange rangeY2 = new ChartRange();
 
+        string labelX = "X Axis";
+        string labelY1 = "Y Axis";
+        string labelY2 = "";
+        string title = "Chart";
+        Bitmap bmpLabelX = null;
+        Bitmap bmpLabelY1 = null;
+        Bitmap bmpLabelY2 = null;
+        Bitmap bmpTitle = null;
+
+        [Category("Style")] public string LabelX 
+        { 
+            get
+			{
+                return labelX;
+			} 
+            set
+			{
+                labelX = TextUnescaper.Unescape(value);
+                Util.Cleanup(ref bmpLabelX);
+                bmpLabelX = Util.BmpFromBase64(value);
+			}
+        }
+        [Category("Style")] public string LabelY1
+		{
+			get
+			{
+                return labelY1;
+			}
+			set
+			{
+                labelY1 = TextUnescaper.Unescape(value);
+                Util.Cleanup(ref bmpLabelY1);
+                bmpLabelY1 = Util.BmpFromBase64(value);
+			}
+		}
+        [Category("Style")] public string LabelY2
+		{
+			get
+			{
+                return labelY2;
+			}
+			set
+			{
+                labelY2 = TextUnescaper.Unescape(value);
+                Util.Cleanup(ref bmpLabelY2);
+                bmpLabelY2 = Util.BmpFromBase64(value);
+			}
+		}
+        [Category("Style")] public string Title
+		{
+			get
+			{
+                return title;
+			}
+			set
+			{
+                title = TextUnescaper.Unescape(value);
+                Util.Cleanup(ref bmpTitle);
+                bmpTitle = Util.BmpFromBase64(value);
+			}
+		}
+
         [Category("Style")] public Color BackgroundColor { get; set; } = Color.White;
         [Category("Style")] public Color ForegroundColor { get; set; } = Color.Black;
-        [Category("Style")] public string LabelX { get; set; } = "X Axis";
-        [Category("Style")] public string LabelY1 { get; set; } = "Y Axis";
-        [Category("Style")] public string LabelY2 { get; set; } = "";
-        [Category("Style")] public string Title { get; set; } = "Chart";
         [Category("Data")] public ChartRange RangeX { set { if (value != null) rangeX = value; else rangeX = new ChartRange(); } get { return rangeX; } }
         [Category("Data")] public ChartRange RangeY1 { set { if (value != null) rangeY1 = value; else rangeY1 = new ChartRange(); } get { return rangeY1; } }
         [Category("Data")] public ChartRange RangeY2 { set { if (value != null) rangeY2 = value; else rangeY2 = new ChartRange(); } get { return rangeY2; } }
@@ -86,11 +144,6 @@ namespace ChartPlotter
             var yscalestep2 = getStepWidth(yrange2) / ScaleSubdivisionY2;
             bool secondPlot = HasSecondPlot();
 
-            Bitmap titleBmp = Util.BmpFromBase64(Title);
-            Bitmap labelXBmp = Util.BmpFromBase64(LabelX);
-            Bitmap labelY1Bmp = Util.BmpFromBase64(LabelY1);
-            Bitmap labelY2Bmp = Util.BmpFromBase64(LabelY2);
-
             Bitmap bmp = new Bitmap(width, height);
             using (Graphics g = Graphics.FromImage(bmp))
             {
@@ -101,16 +154,16 @@ namespace ChartPlotter
                 var xtextheight = g.MeasureString(LabelX, Font).Height;
                 var ytextheight = g.MeasureString(LabelY1, Font).Height;
                 var titleheight = g.MeasureString(Title, TitleFont).Height;
-                if (labelY1Bmp != null)
-                    chartBounds.Left += labelY1Bmp.Height;
+                if (bmpLabelY1 != null)
+                    chartBounds.Left += bmpLabelY1.Height;
                 else if(LabelY1 != "")
                     chartBounds.Left += (int)ytextheight;
-                if (labelXBmp != null)
-                    chartBounds.Bottom -= labelXBmp.Height;
+                if (bmpLabelX != null)
+                    chartBounds.Bottom -= bmpLabelX.Height;
                 else if (LabelX != "")
                     chartBounds.Bottom -= (int)xtextheight;
-                if (titleBmp != null)
-                    chartBounds.Top += titleBmp.Height;
+                if (bmpTitle != null)
+                    chartBounds.Top += bmpTitle.Height;
                 else if (Title != "")
                     chartBounds.Top += (int)titleheight;
 
@@ -174,24 +227,24 @@ namespace ChartPlotter
                     {
                         sf.Alignment = StringAlignment.Center;
                         sf.LineAlignment = StringAlignment.Center;
-                        if(labelXBmp != null)
-                            g.DrawImage(labelXBmp, new PointF(chartBounds.Left + (chartBounds.Width - labelXBmp.Width) * .5f, rHeight - labelXBmp.Height));
+                        if(bmpLabelX != null)
+                            g.DrawImage(bmpLabelX, new PointF(chartBounds.Left + (chartBounds.Width - bmpLabelX.Width) * .5f, rHeight - bmpLabelX.Height));
                         else if (LabelX != "")
                             g.DrawString(LabelX, Font, textBrush, new RectangleF(chartBounds.Left, rHeight - xtextheight, chartBounds.Width, xtextheight), sf);
                         g.RotateTransform(-90);
                         g.TranslateTransform(-rHeight, 0);
-                        if(labelY1Bmp != null)
-                            g.DrawImage(labelY1Bmp, new PointF(rHeight - chartBounds.Bottom + (chartBounds.Height - labelY1Bmp.Width) * .5f, 0));
+                        if(bmpLabelY1 != null)
+                            g.DrawImage(bmpLabelY1, new PointF(rHeight - chartBounds.Bottom + (chartBounds.Height - bmpLabelY1.Width) * .5f, 0));
                         else if (LabelY1 != "")
                             g.DrawString(LabelY1, Font, textBrush, new RectangleF(rHeight - chartBounds.Bottom, 0, chartBounds.Height, ytextheight), sf);
-                        if(labelY2Bmp != null)
-                            g.DrawImage(labelY2Bmp, new PointF(rHeight - chartBounds.Bottom + (chartBounds.Height - labelY2Bmp.Width) * .5f, chartBounds.Right + labelY2Bmp.Height));
+                        if(bmpLabelY2 != null)
+                            g.DrawImage(bmpLabelY2, new PointF(rHeight - chartBounds.Bottom + (chartBounds.Height - bmpLabelY2.Width) * .5f, chartBounds.Right + bmpLabelY2.Height));
                         else if (LabelY2 != "")
                             g.DrawString(LabelY2, Font, textBrush, new RectangleF(rHeight - chartBounds.Bottom, chartBounds.Right + (secondPlot ? ytextheight : 0), chartBounds.Height, ytextheight), sf);
                         g.ResetTransform();
                         g.ScaleTransform(Scaling, Scaling);
-                        if (titleBmp != null)
-                            g.DrawImage(titleBmp, new PointF((rWidth - titleBmp.Width) * .5f, 0));
+                        if (bmpTitle != null)
+                            g.DrawImage(bmpTitle, new PointF((rWidth - bmpTitle.Width) * .5f, 0));
                         else if (Title != "")
                             g.DrawString(Title, TitleFont, textBrush, new RectangleF(0, 0, rWidth, chartBounds.Top), sf);
                     }
@@ -459,10 +512,6 @@ namespace ChartPlotter
                 }
             }
 
-            titleBmp?.Dispose();
-            labelXBmp?.Dispose();
-            labelY1Bmp?.Dispose();
-            labelY2Bmp?.Dispose();
             LastRenderInfo = new XYPlotRenderInfo(xrange, yrange1, yrange2, chartBounds * Scaling);
             return bmp;
         }
