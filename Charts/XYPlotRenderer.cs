@@ -703,6 +703,9 @@ namespace ChartPlotter
 
         public XYPointInfo GetClosestPoint(PointF position)
 		{
+            if (LastRenderInfo == null)
+                return null;
+
             XYPlotData closestPlot = null;
             int closestPoint = 0;
             double closestDistance = double.NaN;

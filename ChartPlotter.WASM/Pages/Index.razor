@@ -1,5 +1,4 @@
 ﻿@page "/"
-@using ChartPlotter
 @using System.Drawing
 
 <PageTitle>Index</PageTitle>
@@ -7,17 +6,18 @@
 <img style="width:600px;height:400px" src=@imgUrl />
 
 @code{
-	XYPlotRenderer plotter;
+	//XYPlotRenderer plotter;
 	string imgUrl = "";
 
 	void init()
 	{
-		plotter = new XYPlotRenderer();
+		//plotter = new XYPlotRenderer();
 	}
 
 	void render()
 	{
-		Bitmap bmp = plotter.RenderChart(600, 400);
+		//Bitmap bmp = plotter.RenderChart(600, 400);
+		Bitmap bmp = new Bitmap(32,32);
 		MemoryStream ms = new MemoryStream();
 		bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
 		string base64 = Convert.ToBase64String(ms.ToArray());

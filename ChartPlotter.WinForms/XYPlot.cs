@@ -14,6 +14,7 @@ namespace ChartPlotter.WinForms
     public partial class XYPlot: UserControl
     {
         public XYPlotRenderer Plotter { get; private set; }
+        public bool HighlightCursorPosition { get; set; } = true;
         Point? mousePos = null;
         bool running = true;
         bool redraw = false;
@@ -133,44 +134,49 @@ namespace ChartPlotter.WinForms
 
         private void pbGraph_MouseMove(object sender, MouseEventArgs e)
         {
+            bool redraw = false;
+
             if (mousePos != null && mmm == MouseMoveMode.Shift)
             {
                 int dx = e.X - mousePos.Value.X;
                 int dy = e.Y - mousePos.Value.Y;
                 mousePos = new Point(e.X, e.Y);
                 Plotter.TranslateRangeByPixel(dx, dy);
-                Redraw();
+                redraw = true;
             }
             else if (mousePos != null && mmm == MouseMoveMode.ScaleX)
             {
                 int dx = e.X - mousePos.Value.X;
                 mousePos = new Point(e.X, e.Y);
                 Plotter.Zoom(Math.Pow(1.1, -dx / 2.0), 1);
-                Redraw();
+                redraw = true;
             }
             else if (mousePos != null && mmm == MouseMoveMode.ScaleY)
             {
                 int dy = e.Y - mousePos.Value.Y;
                 mousePos = new Point(e.X, e.Y);
                 Plotter.Zoom(1, Math.Pow(1.1, dy / 2.0));
-                Redraw();
+                redraw = true;
             }
 
 
             Point rCursor = pbGraph.PointToClient(Cursor.Position);
             var pointInfo = Plotter.GetClosestPoint(rCursor);
-            if (pointInfo != null && pointInfo.Distance < 10)
+            if (pointInfo != null && pointInfo.Distance < 10 && e.Button == MouseButtons.None)
             {
                 string text = "X: " + pointInfo.X + "\nY: " + pointInfo.Y;
                 if (pointInfo.PlotData.LegendVisible)
                     text = pointInfo.PlotData.DataTitle + ":\n" + text;
-                if(ttMousePos == null)
-				{
-                    ttMousePos = new ToolTip();
-				}
-                ttMousePos.Show(text, pbGraph, rCursor.X + 16, rCursor.Y + 16);
-                Plotter.HighlightedPoint = pointInfo;
-                Redraw();
+                if (HighlightCursorPosition)
+                {
+                    if(ttMousePos == null)
+                    {
+                        ttMousePos = new ToolTip();
+                    }
+                    ttMousePos.Show(text, pbGraph, rCursor.X + 16, rCursor.Y + 16, 5000);
+                    Plotter.HighlightedPoint = pointInfo;
+                    redraw = true;
+                }
             }
             else if(ttMousePos != null)
 			{
@@ -178,7 +184,7 @@ namespace ChartPlotter.WinForms
                 ttMousePos.Dispose();
                 ttMousePos = null;
                 Plotter.HighlightedPoint = null;
-                Redraw();
+                redraw = true;
 			}
             /*if (mousePos != null && e.Button == MouseButtons.Right)
             {
@@ -188,6 +194,9 @@ namespace ChartPlotter.WinForms
                 Plotter.Zoom(Math.Pow(1.1, -dx / 2.0), Math.Pow(1.1, dy / 2.0));
                 Redraw();
             }*/
+
+            if (redraw)
+                Redraw();
         }
 
         async void renderLoop()
