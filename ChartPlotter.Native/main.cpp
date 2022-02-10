@@ -5,6 +5,8 @@ using namespace System;
 #ifdef DLLRUN
 int main()
 {
+	double (*negsin_f)(double);
+
 	double x[628];
 	double y[628];
 	HPLOTDATA cos = createPlotData(NULL, NULL, 0);
@@ -19,11 +21,24 @@ int main()
 	HPLOTTER plotter = createPlotter();
 	HPLOTDATA sine = createPlotData(x, y, 628);
 
+	negsin_f = [](double x) {
+		return -sin(x);
+	};
+	HPLOTDATA negsin = createPlotDataY(0, 0.001, 3.1415 * 2, negsin_f);
+
+	HPLOTDATA invsin = createPlotDataXY(0, 0.001, 3.1415 * 2, [](double t, double* x, double* y) {
+		*y = t;
+		*x = sin(t);
+		});
+
 	addPlotData(plotter, sine);
 	addPlotData(plotter, cos);
+	addPlotData(plotter, negsin);
+	addPlotData(plotter, invsin);
 	setPlotterTitleW(plotter, L"Sinus");
-	setPlotterLabelW(plotter, L"time / s", L"Value");
-	setPlotTitleW(sine, L"useless info");
+	setPlotterLabelXW(plotter, L"time / s");
+	setPlotterLabelYW(plotter, L"Value");
+	setPlotTitleW(sine, L"a\\[>=]b");
 	setPlotStyle(sine, STYLE_DASH);
 	setPlotWidth(sine, 4);
 	setPlotterRangeY1(plotter, -2, RANGE_AUTO);
@@ -31,6 +46,8 @@ int main()
 
 	deletePlotData(sine);
 	deletePlotter(plotter);
+
+	plotXY(x, y, 628, "Sinus", "time / \\[omega]", "\\[alpha]");
 }
 #else
 /*BOOL WINAPI DllMain(

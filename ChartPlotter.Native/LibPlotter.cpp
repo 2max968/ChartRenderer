@@ -1,5 +1,6 @@
 #define CHARTRENDERER_FULLTYPES_
 #include "LibPlotter.h"
+#include <cmath>
 
 using namespace System;
 using namespace ChartPlotter;
@@ -142,22 +143,34 @@ DLLEXPORT(void) setPlotterTitleA(HPLOTTER plotter, const char* title)
 	(*plotter)->Title = str;
 }
 
-DLLEXPORT(void) setPlotterLabelW(HPLOTTER plotter, const wchar_t* labelX, const wchar_t* labelY)
+DLLEXPORT(void) setPlotterLabelXW(HPLOTTER plotter, const wchar_t* labelX)
 {
 	if (!checkHandle(plotter))
 		return;
 	auto lx = gcnew String(labelX);
 	(*plotter)->LabelX = lx;
+}
+
+DLLEXPORT(void) setPlotterLabelXA(HPLOTTER plotter, const char* labelX)
+{
+	if (!checkHandle(plotter))
+		return;
+	auto lx = gcnew String(labelX);
+	(*plotter)->LabelX = lx;
+}
+
+DLLEXPORT(void) setPlotterLabelYW(HPLOTTER plotter, const wchar_t* labelY)
+{
+	if (!checkHandle(plotter))
+		return;
 	auto ly = gcnew String(labelY);
 	(*plotter)->LabelY1 = ly;
 }
 
-DLLEXPORT(void) setPlotterLabelA(HPLOTTER plotter, const char* labelX, const char* labelY)
+DLLEXPORT(void) setPlotterLabelYA(HPLOTTER plotter, const char* labelY)
 {
 	if (!checkHandle(plotter))
 		return;
-	auto lx = gcnew String(labelX);
-	(*plotter)->LabelX = lx;
 	auto ly = gcnew String(labelY);
 	(*plotter)->LabelY1 = ly;
 }
@@ -306,4 +319,58 @@ DLLEXPORT(ChartColor) colorFromNameW(const wchar_t* name)
 DLLEXPORT(void) plotAddPoint(HPLOTDATA plot, double x, double y)
 {
 	(*plot)->AddPoint(x, y);
+}
+
+DLLEXPORT(void) plotXY(double* x, double* y, int length, const char* title, const char* labelX, const char* labelY)
+{
+	HPLOTDATA plot = createPlotData(x, y, length);
+	HPLOTTER plotter = createPlotter();
+	setPlotterLabelXA(plotter, labelX);
+	setPlotterLabelYA(plotter, labelY);
+	setPlotterTitleA(plotter, title);
+	setPlotterShowLegend(plotter, false);
+	addPlotData(plotter, plot);
+	showPlotW(plotter);
+	deletePlotter(plotter);
+	deletePlotData(plot);
+}
+
+DLLEXPORT(HPLOTDATA) createPlotDataY(double xstart, double xstep, double xend, functionY function)
+{
+	if (xend < xstart) throw 0;
+	if (xstep <= 0) throw 0;
+
+	int length = (int)ceil((xend - xstart) / xstep) + 1;
+	double* x = new double[length];
+	double* y = new double[length];
+	for (int i = 0; i < length; i++)
+	{
+		x[i] = xstart + i * xstep;
+		y[i] = function(x[i]);
+	}
+
+	HPLOTDATA plot = createPlotData(x, y, length);
+	delete[] x;
+	delete[] y;
+	return plot;
+}
+
+DLLEXPORT(HPLOTDATA) createPlotDataXY(double tstart, double tstep, double tend, functionXY function)
+{
+	if (tend < tstart) throw 0;
+	if (tstep <= 0) throw 0;
+
+	int length = (int)ceil((tend - tstart) / tstep) + 1;
+	double* x = new double[length];
+	double* y = new double[length];
+	for (int i = 0; i < length; i++)
+	{
+		double t = tstart + i * tstep;
+		function(t, &x[i], &y[i]);
+	}
+
+	HPLOTDATA plot = createPlotData(x, y, length);
+	delete[] x;
+	delete[] y;
+	return plot;
 }

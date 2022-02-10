@@ -114,7 +114,6 @@ namespace ChartPlotter
 						continue;
 					}
 					string name = input.Substring(index + 2, close - index - 2);
-					Console.WriteLine("Found word: " + name);
 					output += GetCharacter(name);
 					index = close;
 				}

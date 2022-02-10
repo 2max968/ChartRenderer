@@ -22,9 +22,9 @@ int main()
     HPLOTDATA circle = createPlotData(x.data(), y.data(), x.size());
     HPLOTTER plotter = createPlotter();
 
-    setPlotterColor(plotter, colorFromNameA("white"), colorFromNameA("black"));
+    setPlotterColor(plotter, colorFromName("white"), colorFromName("black"));
     addPlotData(plotter, circle);
-    setPlotterLabelW(plotter, L"Winkel / \\[Omega]", L"Winkel / \\[omega]");
-
-    showPlotW(plotter);
+    setPlotterLabelX(plotter, L"Winkel / \\[Omega]");
+    setPlotterLabelY(plotter, L"Winkel / \\[omega]");
+    showPlot(plotter, "");
 }

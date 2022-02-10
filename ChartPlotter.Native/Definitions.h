@@ -34,6 +34,9 @@ typedef struct
 	unsigned char b;
 } ChartColor;
 
+typedef double (*functionY)(double x);
+typedef void (*functionXY)(double t, double* x, double* y);
+
 #define STYLE_LINE			'_'
 #define STYLE_DASH			'-'
 #define STYLE_CROSS			'X'

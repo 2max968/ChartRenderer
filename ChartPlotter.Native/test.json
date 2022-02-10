@@ -9,5 +9,15 @@
   "SourceLocation": "..\\ChartPlotter.cpp",
   "HeaderLocation": "..\\ChartPlotter.h",
   "CallingConvention": "__cdecl",
-  "MainFunctionName": "initChartPlotter"
+  "MainFunctionName": "initChartPlotter",
+  "ExportMacros": [
+    "DLLEXPORT",
+    "DLLEXPORT"
+  ],
+  "ReturnManipulators": {
+    "default": "if(fp_${name} == NULL)\r\n\tthrow 0;"
+  },
+  "MainReturnSuccess": 0,
+  "MainReturnModuleNotLoaded": 1,
+  "RemoveSuffixWA": true
 }

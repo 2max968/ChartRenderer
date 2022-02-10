@@ -34,6 +34,9 @@ typedef struct
 	unsigned char b;
 } ChartColor;
 
+typedef double (*functionY)(double x);
+typedef void (*functionXY)(double t, double* x, double* y);
+
 #define STYLE_LINE			'_'
 #define STYLE_DASH			'-'
 #define STYLE_CROSS			'X'
@@ -45,22 +48,55 @@ typedef struct
 #define RANGE_AUTO			CHART_NAN
 
 int        __cdecl initChartPlotter();
+/// <summary>
+/// Creates a new plot renderer
+/// </summary>
+/// <returns>Handle to a plot renderer</returns>
 HPLOTTER   __cdecl createPlotter();
+/// <summary>
+/// Marks a plot renderer for deletion
+/// </summary>
+/// <param name="plotter"></param>
+/// <returns></returns>
 void       __cdecl deletePlotter(HPLOTTER plotter);
+/// <summary>
+/// Renders all plots in this plotter to a pixel array
+/// </summary>
+/// <param name="plotter">Handle to a plot renderer</param>
+/// <param name="width">Width of the image to render</param>
+/// <param name="height">Height of the image to render</param>
+/// <param name="bitmap">Array where the pixels should be stored</param>
+/// <param name="bitmapSize">Size of the pixel array in bytes</param>
+/// <returns></returns>
 void       __cdecl renderPlotter(HPLOTTER plotter, int width, int height, uint8_t* bitmap, int bitmapSize);
-void       __cdecl renderPlotterToFileW(HPLOTTER plotter, const wchar_t* filename, int width, int height);
-void       __cdecl renderPlotterToFileA(HPLOTTER plotter, const char* filename, int width, int height);
+/// <summary>
+/// Render all plots in the plot renderer to a image file, the image format will be determined by the file extension
+/// </summary>
+/// <param name="plotter"></param>
+/// <param name="filename"></param>
+/// <param name="width"></param>
+/// <param name="height"></param>
+/// <returns></returns>
+void       __cdecl renderPlotterToFile(HPLOTTER plotter, const wchar_t* filename, int width, int height);
+void       __cdecl renderPlotterToFile(HPLOTTER plotter, const char* filename, int width, int height);
 HPLOTDATA  __cdecl createPlotData(const double* x, const double* y, int length);
 void       __cdecl deletePlotData(HPLOTDATA plot);
 void       __cdecl clearAllPlotData(HPLOTTER plotter);
 void       __cdecl addPlotData(HPLOTTER plotter, HPLOTDATA plot);
-void       __cdecl setPlotterTitleW(HPLOTTER plotter, const wchar_t* title);
-void       __cdecl setPlotterLabelW(HPLOTTER plotter, const wchar_t* labelX, const wchar_t* labelY);
-void       __cdecl setPlotterLabelY2W(HPLOTTER plotter, const wchar_t* label);
-void       __cdecl setPlotTitleW(HPLOTDATA plot, const wchar_t* title);
+void       __cdecl setPlotterTitle(HPLOTTER plotter, const wchar_t* title);
+void       __cdecl setPlotterLabelX(HPLOTTER plotter, const wchar_t* labelX);
+void       __cdecl setPlotterLabelY(HPLOTTER plotter, const wchar_t* labelY);
+void       __cdecl setPlotterLabelY2(HPLOTTER plotter, const wchar_t* label);
+void       __cdecl setPlotTitle(HPLOTDATA plot, const wchar_t* title);
 void       __cdecl setPlotColor(HPLOTDATA plot, ChartColor color);
+void       __cdecl setPlotterTitle(HPLOTTER plotter, const char* title);
+void       __cdecl setPlotterLabelX(HPLOTTER plotter, const char* labelX);
+void       __cdecl setPlotterLabelY(HPLOTTER plotter, const char* labelY);
+void       __cdecl setPlotterLabelY2(HPLOTTER plotter, const char* label);
+void       __cdecl setPlotTitle(HPLOTDATA plot, const char* title);
 void       __cdecl setPlotStyle(HPLOTDATA plot, char type);
-void       __cdecl showPlotW(HPLOTTER plotter, const wchar_t* windowTitle = NULL);
+void       __cdecl showPlot(HPLOTTER plotter, const wchar_t* windowTitle = NULL);
+void       __cdecl showPlot(HPLOTTER plotter, const char* windowTitle = NULL);
 void       __cdecl setPlotIndex(HPLOTDATA plot, int index);
 void       __cdecl setPlotWidth(HPLOTDATA plot, float width);
 void       __cdecl setPlotShowInLegend(HPLOTDATA plot, bool visible);
@@ -70,6 +106,9 @@ void       __cdecl setPlotterRangeX(HPLOTTER plotter, double min, double max);
 void       __cdecl setPlotterRangeY1(HPLOTTER plotter, double min, double max);
 void       __cdecl setPlotterRangeY2(HPLOTTER plotter, double min, double max);
 ChartColor __cdecl colorFromRGB(unsigned char r, unsigned char g, unsigned char b);
-ChartColor __cdecl colorFromNameA(const char* name);
-ChartColor __cdecl colorFromNameW(const wchar_t* name);
+ChartColor __cdecl colorFromName(const char* name);
+ChartColor __cdecl colorFromName(const wchar_t* name);
 void       __cdecl plotAddPoint(HPLOTDATA plot, double x, double y);
+void       __cdecl plotXY(double* x, double* y, int length, const char* title = NULL, const char* labelX = NULL, const char* labelY = NULL);
+HPLOTDATA  __cdecl createPlotDataY(double xstart, double xstep, double xend, functionY function);
+HPLOTDATA  __cdecl createPlotDataXY(double xstart, double xstep, double xend, functionXY function);
