@@ -14,11 +14,19 @@ using HPLOTDATA = PLOTDATA*;
 #endif
 
 typedef enum : int {
-	Regular,
-	Bold,
-	Italic,
-	Underline
+	ChartFontFlags_Regular,
+	ChartFontFlags_Bold,
+	ChartFontFlags_Italic,
+	ChartFontFlags_Underline,
+	ChartFontFlags_Strikeout
 } ChartFontFlags;
+
+typedef enum : uint8_t {
+	ChartImageFormat_Png,
+	ChartImageFormat_Bmp,
+	ChartImageFormat_Jpg,
+	ChartImageFormat_RawRGB24
+} ChartImageFormat;
 
 typedef struct
 {

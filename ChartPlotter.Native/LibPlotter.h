@@ -21,16 +21,6 @@ DLLEXPORT(HPLOTTER) createPlotter();
 /// <returns></returns>
 DLLEXPORT(void) deletePlotter(HPLOTTER plotter);
 /// <summary>
-/// Renders all plots in this plotter to a pixel array
-/// </summary>
-/// <param name="plotter">Handle to a plot renderer</param>
-/// <param name="width">Width of the image to render</param>
-/// <param name="height">Height of the image to render</param>
-/// <param name="bitmap">Array where the pixels should be stored</param>
-/// <param name="bitmapSize">Size of the pixel array in bytes</param>
-/// <returns></returns>
-DLLEXPORT(void) renderPlotter(HPLOTTER plotter, int width, int height, uint8_t* bitmap, int bitmapSize);
-/// <summary>
 /// Render all plots in the plot renderer to a image file, the image format will be determined by the file extension
 /// </summary>
 /// <param name="plotter"></param>
@@ -57,7 +47,7 @@ DLLEXPORT(void) setPlotterLabelY2A(HPLOTTER plotter, const char* label);
 DLLEXPORT(void) setPlotTitleA(HPLOTDATA plot, const char* title);
 DLLEXPORT(void) setPlotStyle(HPLOTDATA plot, char type);
 DLLEXPORT(void) showPlotW(HPLOTTER plotter, const wchar_t* windowTitle = NULL);
-DLLEXPORT(void) showPlotA(HPLOTTER plotter, const char* windowTitle = NULL);
+DLLEXPORT(void) showPlotA(HPLOTTER plotter, const char* windowTitle);
 DLLEXPORT(void) setPlotIndex(HPLOTDATA plot, int index);
 DLLEXPORT(void) setPlotWidth(HPLOTDATA plot, float width);
 DLLEXPORT(void) setPlotShowInLegend(HPLOTDATA plot, bool visible);
@@ -73,3 +63,22 @@ DLLEXPORT(void) plotAddPoint(HPLOTDATA plot, double x, double y);
 DLLEXPORT(void) plotXY(double* x, double* y, int length, const char* title = NULL, const char* labelX = NULL, const char* labelY = NULL);
 DLLEXPORT(HPLOTDATA) createPlotDataY(double xstart, double xstep, double xend, functionY function);
 DLLEXPORT(HPLOTDATA) createPlotDataXY(double xstart, double xstep, double xend, functionXY function);
+/// <summary>
+/// Renders the plot to an image buffer
+/// </summary>
+/// <param name="plotter">The plotter to render</param>
+/// <param name="width">The width of the image to render</param>
+/// <param name="height"The height of the image to render></param>
+/// <param name="size">Outputs the size of the created buffer in bytes</param>
+/// <param name="format">The format to save the image. RawRGB24 just saves the pixels in the array</param>
+/// <returns>The pointer to a buffer containing the image data. This buffer has to be deleted with deleteImageBuffer</returns>
+DLLEXPORT(uint8_t*) renderPlotterToImageBuffer(HPLOTTER plotter, int width, int height, int* size, ChartImageFormat format = ChartImageFormat_Png);
+DLLEXPORT(void) deleteImageBuffer(uint8_t* imageBuffer);
+DLLEXPORT(HWND) createPlotViewer(HPLOTTER plotter);
+DLLEXPORT(void) deletePlotViewer(HWND handle);
+DLLEXPORT(void) setPlotterTitleFontW(HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
+DLLEXPORT(void) setPlotterFontW(HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
+DLLEXPORT(void) setPlotterLegendFontW(HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
+DLLEXPORT(void) setPlotterTitleFontA(HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
+DLLEXPORT(void) setPlotterFontA(HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
+DLLEXPORT(void) setPlotterLegendFontA(HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);

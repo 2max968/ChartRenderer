@@ -1,127 +1,154 @@
 #include ".\ChartPlotter.h"
 #include <windows.h>
 
-typedef HPLOTTER   (__cdecl * type_createPlotter)       ();
-typedef void       (__cdecl * type_deletePlotter)       (HPLOTTER plotter);
-typedef void       (__cdecl * type_renderPlotter)       (HPLOTTER plotter, int width, int height, uint8_t* bitmap, int bitmapSize);
-typedef void       (__cdecl * type_renderPlotterToFileW)(HPLOTTER plotter, const wchar_t* filename, int width, int height);
-typedef void       (__cdecl * type_renderPlotterToFileA)(HPLOTTER plotter, const char* filename, int width, int height);
-typedef HPLOTDATA  (__cdecl * type_createPlotData)      (const double* x, const double* y, int length);
-typedef void       (__cdecl * type_deletePlotData)      (HPLOTDATA plot);
-typedef void       (__cdecl * type_clearAllPlotData)    (HPLOTTER plotter);
-typedef void       (__cdecl * type_addPlotData)         (HPLOTTER plotter, HPLOTDATA plot);
-typedef void       (__cdecl * type_setPlotterTitleW)    (HPLOTTER plotter, const wchar_t* title);
-typedef void       (__cdecl * type_setPlotterLabelXW)   (HPLOTTER plotter, const wchar_t* labelX);
-typedef void       (__cdecl * type_setPlotterLabelYW)   (HPLOTTER plotter, const wchar_t* labelY);
-typedef void       (__cdecl * type_setPlotterLabelY2W)  (HPLOTTER plotter, const wchar_t* label);
-typedef void       (__cdecl * type_setPlotTitleW)       (HPLOTDATA plot, const wchar_t* title);
-typedef void       (__cdecl * type_setPlotColor)        (HPLOTDATA plot, ChartColor color);
-typedef void       (__cdecl * type_setPlotterTitleA)    (HPLOTTER plotter, const char* title);
-typedef void       (__cdecl * type_setPlotterLabelXA)   (HPLOTTER plotter, const char* labelX);
-typedef void       (__cdecl * type_setPlotterLabelYA)   (HPLOTTER plotter, const char* labelY);
-typedef void       (__cdecl * type_setPlotterLabelY2A)  (HPLOTTER plotter, const char* label);
-typedef void       (__cdecl * type_setPlotTitleA)       (HPLOTDATA plot, const char* title);
-typedef void       (__cdecl * type_setPlotStyle)        (HPLOTDATA plot, char type);
-typedef void       (__cdecl * type_showPlotW)           (HPLOTTER plotter, const wchar_t* windowTitle);
-typedef void       (__cdecl * type_showPlotA)           (HPLOTTER plotter, const char* windowTitle);
-typedef void       (__cdecl * type_setPlotIndex)        (HPLOTDATA plot, int index);
-typedef void       (__cdecl * type_setPlotWidth)        (HPLOTDATA plot, float width);
-typedef void       (__cdecl * type_setPlotShowInLegend) (HPLOTDATA plot, bool visible);
-typedef void       (__cdecl * type_setPlotterShowLegend)(HPLOTTER plotter, bool visible);
-typedef void       (__cdecl * type_setPlotterColor)     (HPLOTTER plotter, ChartColor foreground, ChartColor background);
-typedef void       (__cdecl * type_setPlotterRangeX)    (HPLOTTER plotter, double min, double max);
-typedef void       (__cdecl * type_setPlotterRangeY1)   (HPLOTTER plotter, double min, double max);
-typedef void       (__cdecl * type_setPlotterRangeY2)   (HPLOTTER plotter, double min, double max);
-typedef ChartColor (__cdecl * type_colorFromRGB)        (unsigned char r, unsigned char g, unsigned char b);
-typedef ChartColor (__cdecl * type_colorFromNameA)      (const char* name);
-typedef ChartColor (__cdecl * type_colorFromNameW)      (const wchar_t* name);
-typedef void       (__cdecl * type_plotAddPoint)        (HPLOTDATA plot, double x, double y);
-typedef void       (__cdecl * type_plotXY)              (double* x, double* y, int length, const char* title, const char* labelX, const char* labelY);
-typedef HPLOTDATA  (__cdecl * type_createPlotDataY)     (double xstart, double xstep, double xend, functionY function);
-typedef HPLOTDATA  (__cdecl * type_createPlotDataXY)    (double xstart, double xstep, double xend, functionXY function);
+typedef HPLOTTER   (__cdecl * type_createPlotter)             ();
+typedef void       (__cdecl * type_deletePlotter)             (HPLOTTER plotter);
+typedef void       (__cdecl * type_renderPlotterToFileW)      (HPLOTTER plotter, const wchar_t* filename, int width, int height);
+typedef void       (__cdecl * type_renderPlotterToFileA)      (HPLOTTER plotter, const char* filename, int width, int height);
+typedef HPLOTDATA  (__cdecl * type_createPlotData)            (const double* x, const double* y, int length);
+typedef void       (__cdecl * type_deletePlotData)            (HPLOTDATA plot);
+typedef void       (__cdecl * type_clearAllPlotData)          (HPLOTTER plotter);
+typedef void       (__cdecl * type_addPlotData)               (HPLOTTER plotter, HPLOTDATA plot);
+typedef void       (__cdecl * type_setPlotterTitleW)          (HPLOTTER plotter, const wchar_t* title);
+typedef void       (__cdecl * type_setPlotterLabelXW)         (HPLOTTER plotter, const wchar_t* labelX);
+typedef void       (__cdecl * type_setPlotterLabelYW)         (HPLOTTER plotter, const wchar_t* labelY);
+typedef void       (__cdecl * type_setPlotterLabelY2W)        (HPLOTTER plotter, const wchar_t* label);
+typedef void       (__cdecl * type_setPlotTitleW)             (HPLOTDATA plot, const wchar_t* title);
+typedef void       (__cdecl * type_setPlotColor)              (HPLOTDATA plot, ChartColor color);
+typedef void       (__cdecl * type_setPlotterTitleA)          (HPLOTTER plotter, const char* title);
+typedef void       (__cdecl * type_setPlotterLabelXA)         (HPLOTTER plotter, const char* labelX);
+typedef void       (__cdecl * type_setPlotterLabelYA)         (HPLOTTER plotter, const char* labelY);
+typedef void       (__cdecl * type_setPlotterLabelY2A)        (HPLOTTER plotter, const char* label);
+typedef void       (__cdecl * type_setPlotTitleA)             (HPLOTDATA plot, const char* title);
+typedef void       (__cdecl * type_setPlotStyle)              (HPLOTDATA plot, char type);
+typedef void       (__cdecl * type_showPlotW)                 (HPLOTTER plotter, const wchar_t* windowTitle);
+typedef void       (__cdecl * type_showPlotA)                 (HPLOTTER plotter, const char* windowTitle);
+typedef void       (__cdecl * type_setPlotIndex)              (HPLOTDATA plot, int index);
+typedef void       (__cdecl * type_setPlotWidth)              (HPLOTDATA plot, float width);
+typedef void       (__cdecl * type_setPlotShowInLegend)       (HPLOTDATA plot, bool visible);
+typedef void       (__cdecl * type_setPlotterShowLegend)      (HPLOTTER plotter, bool visible);
+typedef void       (__cdecl * type_setPlotterColor)           (HPLOTTER plotter, ChartColor foreground, ChartColor background);
+typedef void       (__cdecl * type_setPlotterRangeX)          (HPLOTTER plotter, double min, double max);
+typedef void       (__cdecl * type_setPlotterRangeY1)         (HPLOTTER plotter, double min, double max);
+typedef void       (__cdecl * type_setPlotterRangeY2)         (HPLOTTER plotter, double min, double max);
+typedef ChartColor (__cdecl * type_colorFromRGB)              (unsigned char r, unsigned char g, unsigned char b);
+typedef ChartColor (__cdecl * type_colorFromNameA)            (const char* name);
+typedef ChartColor (__cdecl * type_colorFromNameW)            (const wchar_t* name);
+typedef void       (__cdecl * type_plotAddPoint)              (HPLOTDATA plot, double x, double y);
+typedef void       (__cdecl * type_plotXY)                    (double* x, double* y, int length, const char* title, const char* labelX, const char* labelY);
+typedef HPLOTDATA  (__cdecl * type_createPlotDataY)           (double xstart, double xstep, double xend, functionY function);
+typedef HPLOTDATA  (__cdecl * type_createPlotDataXY)          (double xstart, double xstep, double xend, functionXY function);
+typedef uint8_t*   (__cdecl * type_renderPlotterToImageBuffer)(HPLOTTER plotter, int width, int height, int* size, ChartImageFormat format);
+typedef void       (__cdecl * type_deleteImageBuffer)         (uint8_t* imageBuffer);
+typedef HWND       (__cdecl * type_createPlotViewer)          (HPLOTTER plotter);
+typedef void       (__cdecl * type_deletePlotViewer)          (HWND handle);
+typedef void       (__cdecl * type_setPlotterTitleFontW)      (HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags);
+typedef void       (__cdecl * type_setPlotterFontW)           (HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags);
+typedef void       (__cdecl * type_setPlotterLegendFontW)     (HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags);
+typedef void       (__cdecl * type_setPlotterTitleFontA)      (HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags);
+typedef void       (__cdecl * type_setPlotterFontA)           (HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags);
+typedef void       (__cdecl * type_setPlotterLegendFontA)     (HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags);
 
-static type_createPlotter        fp_createPlotter;
-static type_deletePlotter        fp_deletePlotter;
-static type_renderPlotter        fp_renderPlotter;
-static type_renderPlotterToFileW fp_renderPlotterToFileW;
-static type_renderPlotterToFileA fp_renderPlotterToFileA;
-static type_createPlotData       fp_createPlotData;
-static type_deletePlotData       fp_deletePlotData;
-static type_clearAllPlotData     fp_clearAllPlotData;
-static type_addPlotData          fp_addPlotData;
-static type_setPlotterTitleW     fp_setPlotterTitleW;
-static type_setPlotterLabelXW    fp_setPlotterLabelXW;
-static type_setPlotterLabelYW    fp_setPlotterLabelYW;
-static type_setPlotterLabelY2W   fp_setPlotterLabelY2W;
-static type_setPlotTitleW        fp_setPlotTitleW;
-static type_setPlotColor         fp_setPlotColor;
-static type_setPlotterTitleA     fp_setPlotterTitleA;
-static type_setPlotterLabelXA    fp_setPlotterLabelXA;
-static type_setPlotterLabelYA    fp_setPlotterLabelYA;
-static type_setPlotterLabelY2A   fp_setPlotterLabelY2A;
-static type_setPlotTitleA        fp_setPlotTitleA;
-static type_setPlotStyle         fp_setPlotStyle;
-static type_showPlotW            fp_showPlotW;
-static type_showPlotA            fp_showPlotA;
-static type_setPlotIndex         fp_setPlotIndex;
-static type_setPlotWidth         fp_setPlotWidth;
-static type_setPlotShowInLegend  fp_setPlotShowInLegend;
-static type_setPlotterShowLegend fp_setPlotterShowLegend;
-static type_setPlotterColor      fp_setPlotterColor;
-static type_setPlotterRangeX     fp_setPlotterRangeX;
-static type_setPlotterRangeY1    fp_setPlotterRangeY1;
-static type_setPlotterRangeY2    fp_setPlotterRangeY2;
-static type_colorFromRGB         fp_colorFromRGB;
-static type_colorFromNameA       fp_colorFromNameA;
-static type_colorFromNameW       fp_colorFromNameW;
-static type_plotAddPoint         fp_plotAddPoint;
-static type_plotXY               fp_plotXY;
-static type_createPlotDataY      fp_createPlotDataY;
-static type_createPlotDataXY     fp_createPlotDataXY;
+static type_createPlotter              fp_createPlotter;
+static type_deletePlotter              fp_deletePlotter;
+static type_renderPlotterToFileW       fp_renderPlotterToFileW;
+static type_renderPlotterToFileA       fp_renderPlotterToFileA;
+static type_createPlotData             fp_createPlotData;
+static type_deletePlotData             fp_deletePlotData;
+static type_clearAllPlotData           fp_clearAllPlotData;
+static type_addPlotData                fp_addPlotData;
+static type_setPlotterTitleW           fp_setPlotterTitleW;
+static type_setPlotterLabelXW          fp_setPlotterLabelXW;
+static type_setPlotterLabelYW          fp_setPlotterLabelYW;
+static type_setPlotterLabelY2W         fp_setPlotterLabelY2W;
+static type_setPlotTitleW              fp_setPlotTitleW;
+static type_setPlotColor               fp_setPlotColor;
+static type_setPlotterTitleA           fp_setPlotterTitleA;
+static type_setPlotterLabelXA          fp_setPlotterLabelXA;
+static type_setPlotterLabelYA          fp_setPlotterLabelYA;
+static type_setPlotterLabelY2A         fp_setPlotterLabelY2A;
+static type_setPlotTitleA              fp_setPlotTitleA;
+static type_setPlotStyle               fp_setPlotStyle;
+static type_showPlotW                  fp_showPlotW;
+static type_showPlotA                  fp_showPlotA;
+static type_setPlotIndex               fp_setPlotIndex;
+static type_setPlotWidth               fp_setPlotWidth;
+static type_setPlotShowInLegend        fp_setPlotShowInLegend;
+static type_setPlotterShowLegend       fp_setPlotterShowLegend;
+static type_setPlotterColor            fp_setPlotterColor;
+static type_setPlotterRangeX           fp_setPlotterRangeX;
+static type_setPlotterRangeY1          fp_setPlotterRangeY1;
+static type_setPlotterRangeY2          fp_setPlotterRangeY2;
+static type_colorFromRGB               fp_colorFromRGB;
+static type_colorFromNameA             fp_colorFromNameA;
+static type_colorFromNameW             fp_colorFromNameW;
+static type_plotAddPoint               fp_plotAddPoint;
+static type_plotXY                     fp_plotXY;
+static type_createPlotDataY            fp_createPlotDataY;
+static type_createPlotDataXY           fp_createPlotDataXY;
+static type_renderPlotterToImageBuffer fp_renderPlotterToImageBuffer;
+static type_deleteImageBuffer          fp_deleteImageBuffer;
+static type_createPlotViewer           fp_createPlotViewer;
+static type_deletePlotViewer           fp_deletePlotViewer;
+static type_setPlotterTitleFontW       fp_setPlotterTitleFontW;
+static type_setPlotterFontW            fp_setPlotterFontW;
+static type_setPlotterLegendFontW      fp_setPlotterLegendFontW;
+static type_setPlotterTitleFontA       fp_setPlotterTitleFontA;
+static type_setPlotterFontA            fp_setPlotterFontA;
+static type_setPlotterLegendFontA      fp_setPlotterLegendFontA;
 
 int __cdecl initChartPlotter()
 {
 	HMODULE lib = LoadLibraryW(L"ChartPlotter.Native.dll");
 	if(lib == NULL)
 		return 0;
-	fp_createPlotter        = (type_createPlotter)GetProcAddress(lib, "createPlotter");
-	fp_deletePlotter        = (type_deletePlotter)GetProcAddress(lib, "deletePlotter");
-	fp_renderPlotter        = (type_renderPlotter)GetProcAddress(lib, "renderPlotter");
-	fp_renderPlotterToFileW = (type_renderPlotterToFileW)GetProcAddress(lib, "renderPlotterToFileW");
-	fp_renderPlotterToFileA = (type_renderPlotterToFileA)GetProcAddress(lib, "renderPlotterToFileA");
-	fp_createPlotData       = (type_createPlotData)GetProcAddress(lib, "createPlotData");
-	fp_deletePlotData       = (type_deletePlotData)GetProcAddress(lib, "deletePlotData");
-	fp_clearAllPlotData     = (type_clearAllPlotData)GetProcAddress(lib, "clearAllPlotData");
-	fp_addPlotData          = (type_addPlotData)GetProcAddress(lib, "addPlotData");
-	fp_setPlotterTitleW     = (type_setPlotterTitleW)GetProcAddress(lib, "setPlotterTitleW");
-	fp_setPlotterLabelXW    = (type_setPlotterLabelXW)GetProcAddress(lib, "setPlotterLabelXW");
-	fp_setPlotterLabelYW    = (type_setPlotterLabelYW)GetProcAddress(lib, "setPlotterLabelYW");
-	fp_setPlotterLabelY2W   = (type_setPlotterLabelY2W)GetProcAddress(lib, "setPlotterLabelY2W");
-	fp_setPlotTitleW        = (type_setPlotTitleW)GetProcAddress(lib, "setPlotTitleW");
-	fp_setPlotColor         = (type_setPlotColor)GetProcAddress(lib, "setPlotColor");
-	fp_setPlotterTitleA     = (type_setPlotterTitleA)GetProcAddress(lib, "setPlotterTitleA");
-	fp_setPlotterLabelXA    = (type_setPlotterLabelXA)GetProcAddress(lib, "setPlotterLabelXA");
-	fp_setPlotterLabelYA    = (type_setPlotterLabelYA)GetProcAddress(lib, "setPlotterLabelYA");
-	fp_setPlotterLabelY2A   = (type_setPlotterLabelY2A)GetProcAddress(lib, "setPlotterLabelY2A");
-	fp_setPlotTitleA        = (type_setPlotTitleA)GetProcAddress(lib, "setPlotTitleA");
-	fp_setPlotStyle         = (type_setPlotStyle)GetProcAddress(lib, "setPlotStyle");
-	fp_showPlotW            = (type_showPlotW)GetProcAddress(lib, "showPlotW");
-	fp_showPlotA            = (type_showPlotA)GetProcAddress(lib, "showPlotA");
-	fp_setPlotIndex         = (type_setPlotIndex)GetProcAddress(lib, "setPlotIndex");
-	fp_setPlotWidth         = (type_setPlotWidth)GetProcAddress(lib, "setPlotWidth");
-	fp_setPlotShowInLegend  = (type_setPlotShowInLegend)GetProcAddress(lib, "setPlotShowInLegend");
-	fp_setPlotterShowLegend = (type_setPlotterShowLegend)GetProcAddress(lib, "setPlotterShowLegend");
-	fp_setPlotterColor      = (type_setPlotterColor)GetProcAddress(lib, "setPlotterColor");
-	fp_setPlotterRangeX     = (type_setPlotterRangeX)GetProcAddress(lib, "setPlotterRangeX");
-	fp_setPlotterRangeY1    = (type_setPlotterRangeY1)GetProcAddress(lib, "setPlotterRangeY1");
-	fp_setPlotterRangeY2    = (type_setPlotterRangeY2)GetProcAddress(lib, "setPlotterRangeY2");
-	fp_colorFromRGB         = (type_colorFromRGB)GetProcAddress(lib, "colorFromRGB");
-	fp_colorFromNameA       = (type_colorFromNameA)GetProcAddress(lib, "colorFromNameA");
-	fp_colorFromNameW       = (type_colorFromNameW)GetProcAddress(lib, "colorFromNameW");
-	fp_plotAddPoint         = (type_plotAddPoint)GetProcAddress(lib, "plotAddPoint");
-	fp_plotXY               = (type_plotXY)GetProcAddress(lib, "plotXY");
-	fp_createPlotDataY      = (type_createPlotDataY)GetProcAddress(lib, "createPlotDataY");
-	fp_createPlotDataXY     = (type_createPlotDataXY)GetProcAddress(lib, "createPlotDataXY");
+	fp_createPlotter              = (type_createPlotter)GetProcAddress(lib, "createPlotter");
+	fp_deletePlotter              = (type_deletePlotter)GetProcAddress(lib, "deletePlotter");
+	fp_renderPlotterToFileW       = (type_renderPlotterToFileW)GetProcAddress(lib, "renderPlotterToFileW");
+	fp_renderPlotterToFileA       = (type_renderPlotterToFileA)GetProcAddress(lib, "renderPlotterToFileA");
+	fp_createPlotData             = (type_createPlotData)GetProcAddress(lib, "createPlotData");
+	fp_deletePlotData             = (type_deletePlotData)GetProcAddress(lib, "deletePlotData");
+	fp_clearAllPlotData           = (type_clearAllPlotData)GetProcAddress(lib, "clearAllPlotData");
+	fp_addPlotData                = (type_addPlotData)GetProcAddress(lib, "addPlotData");
+	fp_setPlotterTitleW           = (type_setPlotterTitleW)GetProcAddress(lib, "setPlotterTitleW");
+	fp_setPlotterLabelXW          = (type_setPlotterLabelXW)GetProcAddress(lib, "setPlotterLabelXW");
+	fp_setPlotterLabelYW          = (type_setPlotterLabelYW)GetProcAddress(lib, "setPlotterLabelYW");
+	fp_setPlotterLabelY2W         = (type_setPlotterLabelY2W)GetProcAddress(lib, "setPlotterLabelY2W");
+	fp_setPlotTitleW              = (type_setPlotTitleW)GetProcAddress(lib, "setPlotTitleW");
+	fp_setPlotColor               = (type_setPlotColor)GetProcAddress(lib, "setPlotColor");
+	fp_setPlotterTitleA           = (type_setPlotterTitleA)GetProcAddress(lib, "setPlotterTitleA");
+	fp_setPlotterLabelXA          = (type_setPlotterLabelXA)GetProcAddress(lib, "setPlotterLabelXA");
+	fp_setPlotterLabelYA          = (type_setPlotterLabelYA)GetProcAddress(lib, "setPlotterLabelYA");
+	fp_setPlotterLabelY2A         = (type_setPlotterLabelY2A)GetProcAddress(lib, "setPlotterLabelY2A");
+	fp_setPlotTitleA              = (type_setPlotTitleA)GetProcAddress(lib, "setPlotTitleA");
+	fp_setPlotStyle               = (type_setPlotStyle)GetProcAddress(lib, "setPlotStyle");
+	fp_showPlotW                  = (type_showPlotW)GetProcAddress(lib, "showPlotW");
+	fp_showPlotA                  = (type_showPlotA)GetProcAddress(lib, "showPlotA");
+	fp_setPlotIndex               = (type_setPlotIndex)GetProcAddress(lib, "setPlotIndex");
+	fp_setPlotWidth               = (type_setPlotWidth)GetProcAddress(lib, "setPlotWidth");
+	fp_setPlotShowInLegend        = (type_setPlotShowInLegend)GetProcAddress(lib, "setPlotShowInLegend");
+	fp_setPlotterShowLegend       = (type_setPlotterShowLegend)GetProcAddress(lib, "setPlotterShowLegend");
+	fp_setPlotterColor            = (type_setPlotterColor)GetProcAddress(lib, "setPlotterColor");
+	fp_setPlotterRangeX           = (type_setPlotterRangeX)GetProcAddress(lib, "setPlotterRangeX");
+	fp_setPlotterRangeY1          = (type_setPlotterRangeY1)GetProcAddress(lib, "setPlotterRangeY1");
+	fp_setPlotterRangeY2          = (type_setPlotterRangeY2)GetProcAddress(lib, "setPlotterRangeY2");
+	fp_colorFromRGB               = (type_colorFromRGB)GetProcAddress(lib, "colorFromRGB");
+	fp_colorFromNameA             = (type_colorFromNameA)GetProcAddress(lib, "colorFromNameA");
+	fp_colorFromNameW             = (type_colorFromNameW)GetProcAddress(lib, "colorFromNameW");
+	fp_plotAddPoint               = (type_plotAddPoint)GetProcAddress(lib, "plotAddPoint");
+	fp_plotXY                     = (type_plotXY)GetProcAddress(lib, "plotXY");
+	fp_createPlotDataY            = (type_createPlotDataY)GetProcAddress(lib, "createPlotDataY");
+	fp_createPlotDataXY           = (type_createPlotDataXY)GetProcAddress(lib, "createPlotDataXY");
+	fp_renderPlotterToImageBuffer = (type_renderPlotterToImageBuffer)GetProcAddress(lib, "renderPlotterToImageBuffer");
+	fp_deleteImageBuffer          = (type_deleteImageBuffer)GetProcAddress(lib, "deleteImageBuffer");
+	fp_createPlotViewer           = (type_createPlotViewer)GetProcAddress(lib, "createPlotViewer");
+	fp_deletePlotViewer           = (type_deletePlotViewer)GetProcAddress(lib, "deletePlotViewer");
+	fp_setPlotterTitleFontW       = (type_setPlotterTitleFontW)GetProcAddress(lib, "setPlotterTitleFontW");
+	fp_setPlotterFontW            = (type_setPlotterFontW)GetProcAddress(lib, "setPlotterFontW");
+	fp_setPlotterLegendFontW      = (type_setPlotterLegendFontW)GetProcAddress(lib, "setPlotterLegendFontW");
+	fp_setPlotterTitleFontA       = (type_setPlotterTitleFontA)GetProcAddress(lib, "setPlotterTitleFontA");
+	fp_setPlotterFontA            = (type_setPlotterFontA)GetProcAddress(lib, "setPlotterFontA");
+	fp_setPlotterLegendFontA      = (type_setPlotterLegendFontA)GetProcAddress(lib, "setPlotterLegendFontA");
 	return 1;
 }
 
@@ -137,13 +164,6 @@ void __cdecl deletePlotter(HPLOTTER plotter)
 	if(fp_deletePlotter == NULL)
 		throw 0;
 	fp_deletePlotter(plotter);
-}
-
-void __cdecl renderPlotter(HPLOTTER plotter, int width, int height, uint8_t* bitmap, int bitmapSize)
-{
-	if(fp_renderPlotter == NULL)
-		throw 0;
-	fp_renderPlotter(plotter, width, height, bitmap, bitmapSize);
 }
 
 void __cdecl renderPlotterToFile(HPLOTTER plotter, const wchar_t* filename, int width, int height)
@@ -389,5 +409,75 @@ HPLOTDATA __cdecl createPlotDataXY(double xstart, double xstep, double xend, fun
 	if(fp_createPlotDataXY == NULL)
 		throw 0;
 	return fp_createPlotDataXY(xstart, xstep, xend, function);
+}
+
+uint8_t* __cdecl renderPlotterToImageBuffer(HPLOTTER plotter, int width, int height, int* size, ChartImageFormat format)
+{
+	if(fp_renderPlotterToImageBuffer == NULL)
+		throw 0;
+	return fp_renderPlotterToImageBuffer(plotter, width, height, size, format);
+}
+
+void __cdecl deleteImageBuffer(uint8_t* imageBuffer)
+{
+	if(fp_deleteImageBuffer == NULL)
+		throw 0;
+	fp_deleteImageBuffer(imageBuffer);
+}
+
+HWND __cdecl createPlotViewer(HPLOTTER plotter)
+{
+	if(fp_createPlotViewer == NULL)
+		throw 0;
+	return fp_createPlotViewer(plotter);
+}
+
+void __cdecl deletePlotViewer(HWND handle)
+{
+	if(fp_deletePlotViewer == NULL)
+		throw 0;
+	fp_deletePlotViewer(handle);
+}
+
+void __cdecl setPlotterTitleFont(HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags)
+{
+	if(fp_setPlotterTitleFontW == NULL)
+		throw 0;
+	fp_setPlotterTitleFontW(plotter, fontFamily, fontSize, flags);
+}
+
+void __cdecl setPlotterFont(HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags)
+{
+	if(fp_setPlotterFontW == NULL)
+		throw 0;
+	fp_setPlotterFontW(plotter, fontFamily, fontSize, flags);
+}
+
+void __cdecl setPlotterLegendFont(HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags)
+{
+	if(fp_setPlotterLegendFontW == NULL)
+		throw 0;
+	fp_setPlotterLegendFontW(plotter, fontFamily, fontSize, flags);
+}
+
+void __cdecl setPlotterTitleFont(HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags)
+{
+	if(fp_setPlotterTitleFontA == NULL)
+		throw 0;
+	fp_setPlotterTitleFontA(plotter, fontFamily, fontSize, flags);
+}
+
+void __cdecl setPlotterFont(HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags)
+{
+	if(fp_setPlotterFontA == NULL)
+		throw 0;
+	fp_setPlotterFontA(plotter, fontFamily, fontSize, flags);
+}
+
+void __cdecl setPlotterLegendFont(HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags)
+{
+	if(fp_setPlotterLegendFontA == NULL)
+		throw 0;
+	fp_setPlotterLegendFontA(plotter, fontFamily, fontSize, flags);
 }
 

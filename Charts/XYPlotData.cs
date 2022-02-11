@@ -13,7 +13,13 @@ namespace ChartPlotter
         public delegate double SimpleFunction(double x);
         public delegate (double x, double y) FunctionXY(double t);
 
-        public string DataTitle { get; set; } = "Data";
+        string dataTitle = "Data";
+
+        public string DataTitle
+        {
+            get { return dataTitle; }
+            set { dataTitle = TextUnescaper.Unescape(value); }
+        }
         public double[] DataX { get; private set; }
         public double[] DataY { get; private set; }
         public Color? DataColor { get; set; } = null;

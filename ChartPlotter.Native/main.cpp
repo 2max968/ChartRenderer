@@ -2,6 +2,8 @@
 
 using namespace System;
 
+const wchar_t* CLASSNAME = L"ChartTest";
+
 #ifdef DLLRUN
 int main()
 {
@@ -42,12 +44,28 @@ int main()
 	setPlotStyle(sine, STYLE_DASH);
 	setPlotWidth(sine, 4);
 	setPlotterRangeY1(plotter, -2, RANGE_AUTO);
+	setPlotterTitleFontA(plotter, "Cascadia Mono", 24, ChartFontFlags_Bold);
 	showPlotW(plotter);
+
+	int size;
+	uint8_t* imageBuffer = renderPlotterToImageBuffer(plotter, 600, 400, &size, ChartImageFormat_RawRGB24);
+	
+	/*HWND wnd = CreateWindowExW(0, CLASSNAME, L"Text",
+		WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
+		NULL, NULL, GetModuleHandle(NULL), NULL);
+
+	ShowWindow(wnd, SW_NORMAL);
+
+	while (true)
+	{
+		MSG msg;
+		GetMessageW(&msg, wnd, 0, 0);
+		TranslateMessage(&msg);
+		DispatchMessageW(&msg);
+	}*/
 
 	deletePlotData(sine);
 	deletePlotter(plotter);
-
-	plotXY(x, y, 628, "Sinus", "time / \\[omega]", "\\[alpha]");
 }
 #else
 /*BOOL WINAPI DllMain(

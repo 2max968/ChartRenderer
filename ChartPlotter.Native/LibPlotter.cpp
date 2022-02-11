@@ -1,6 +1,7 @@
 #define CHARTRENDERER_FULLTYPES_
 #include "LibPlotter.h"
 #include <cmath>
+#include <map>
 
 using namespace System;
 using namespace ChartPlotter;
@@ -12,6 +13,7 @@ using namespace System::Windows::Forms;
 
 std::vector<HPLOTTER> plotterHandles;
 std::vector<HPLOTDATA> dataHandles;
+std::map<HWND, msclr::gcroot<XYPlot^>*> controls;
 
 bool checkHandle(HPLOTTER plotter)
 {
@@ -50,16 +52,6 @@ DLLEXPORT(void) deletePlotter(HPLOTTER plotter)
 		}
 	}
 	delete plotter;
-}
-
-DLLEXPORT(void) renderPlotter(HPLOTTER plotter, int width, int height, uint8_t* bitmap, int bitmapSize)
-{
-	if (!checkHandle(plotter))
-		INVALID_HANDLE_VALUE;
-	Bitmap^ bmp = (*plotter)->RenderChart(width, height);
-	auto data = bmp->LockBits(System::Drawing::Rectangle(0, 0, width, height), ImageLockMode::ReadOnly, PixelFormat::Format24bppRgb);
-	memcpy_s(bitmap, bitmapSize, data->Scan0.ToPointer(), height * data->Stride);
-	bmp->UnlockBits(data);
 }
 
 void renderPlotterToFile(HPLOTTER plotter, String^ filename, int width, int height)
@@ -373,4 +365,127 @@ DLLEXPORT(HPLOTDATA) createPlotDataXY(double tstart, double tstep, double tend, 
 	delete[] x;
 	delete[] y;
 	return plot;
+}
+
+static void _renderPlotter(Bitmap^ bmp, uint8_t* bitmap, int bitmapSize)
+{
+	auto data = bmp->LockBits(System::Drawing::Rectangle(0, 0, bmp->Width, bmp->Height), ImageLockMode::ReadOnly, PixelFormat::Format24bppRgb);
+	memcpy_s(bitmap, bitmapSize, data->Scan0.ToPointer(), bmp->Height * data->Stride);
+	bmp->UnlockBits(data);
+}
+
+DLLEXPORT(uint8_t*) renderPlotterToImageBuffer(HPLOTTER plotter, int width, int height, int* size, ChartImageFormat format)
+{
+	auto image = (*plotter)->RenderChart(width, height);
+	if (format != ChartImageFormat_RawRGB24)
+	{
+		auto ms = gcnew System::IO::MemoryStream();
+		auto _format = ImageFormat::Png;
+		switch (format)
+		{
+		case ChartImageFormat_Bmp:
+			_format = ImageFormat::Bmp;
+			break;
+		case ChartImageFormat_Jpg:
+			_format = ImageFormat::Jpeg;
+			break;
+		case ChartImageFormat_Png:
+			_format = ImageFormat::Png;
+			break;
+		default:
+			break;
+		}
+		image->Save(ms, _format);
+		auto buffer = ms->ToArray();
+		*size = buffer->Length;
+		uint8_t* imageBuffer = (uint8_t*)GlobalAlloc(GMEM_FIXED, *size);
+		Marshal::Copy(buffer, 0, (IntPtr)imageBuffer, *size);
+		delete ms;
+		delete image;
+		return imageBuffer;
+	}
+	else 
+	{
+		*size = width * height * 3;
+		uint8_t* imageBuffer = (uint8_t*)GlobalAlloc(GMEM_FIXED, *size);
+		_renderPlotter(image, imageBuffer, *size);
+		return imageBuffer;
+	}
+}
+
+DLLEXPORT(void) deleteImageBuffer(uint8_t* imageBuffer)
+{
+	GlobalFree(imageBuffer);
+}
+
+DLLEXPORT(HWND) createPlotViewer(HPLOTTER plotter)
+{
+	auto plotControl = gcnew XYPlot(*plotter);
+	HWND hwnd = (HWND)plotControl->Handle.ToPointer();
+	auto item = new msclr::gcroot<XYPlot^>(plotControl);
+	controls[hwnd] = item;
+	return hwnd;
+}
+
+DLLEXPORT(void) deletePlotViewer(HWND handle)
+{
+	auto control = controls[handle];
+	if (control != nullptr)
+	{
+		delete* control;
+		delete control;
+		controls.erase(handle);
+	}
+}
+
+template<class tchar>
+static Font^ _createFont(const tchar* fontFamily, float fontSize, ChartFontFlags flags)
+{
+	auto style = FontStyle::Regular;
+	switch (flags)
+	{
+	case ChartFontFlags_Bold:
+		style = FontStyle::Bold;
+		break;
+	case ChartFontFlags_Italic:
+		style = FontStyle::Italic;
+		break;
+	case ChartFontFlags_Underline:
+		style = FontStyle::Underline;
+		break;
+	case ChartFontFlags_Strikeout:
+		style = FontStyle::Strikeout;
+		break;
+	}
+	return gcnew Font(gcnew String(fontFamily), fontSize, style);
+}
+
+DLLEXPORT(void) setPlotterTitleFontW(HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags)
+{
+	(*plotter)->TitleFont = _createFont(fontFamily, fontSize, flags);
+}
+
+DLLEXPORT(void) setPlotterFontW(HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags)
+{
+	(*plotter)->Font = _createFont(fontFamily, fontSize, flags);
+}
+
+DLLEXPORT(void) setPlotterLegendFontW(HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags)
+{
+	(*plotter)->LegendFont = _createFont(fontFamily, fontSize, flags);
+}
+
+DLLEXPORT(void) setPlotterTitleFontA(HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags)
+{
+	(*plotter)->TitleFont = _createFont(fontFamily, fontSize, flags);
+}
+
+DLLEXPORT(void) setPlotterFontA(HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags)
+{
+	(*plotter)->Font = _createFont(fontFamily, fontSize, flags);
+}
+
+DLLEXPORT(void) setPlotterLegendFontA(HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags)
+{
+	(*plotter)->LegendFont = _createFont(fontFamily, fontSize, flags);
 }
