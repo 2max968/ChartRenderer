@@ -37,15 +37,19 @@ int main()
 	addPlotData(plotter, cos);
 	addPlotData(plotter, negsin);
 	addPlotData(plotter, invsin);
-	setPlotterTitleW(plotter, L"Sinus");
-	setPlotterLabelXW(plotter, L"time / s");
-	setPlotterLabelYW(plotter, L"Value");
+	setPlotterTitleW(plotter, L"$y = sin(t)$");
+	setPlotterLabelXW(plotter, L"$t / \\text{s}$");
+	setPlotterLabelYW(plotter, L"$y / \\text{cm}$");
 	setPlotTitleW(sine, L"a\\[>=]b");
 	setPlotStyle(sine, STYLE_DASH);
 	setPlotWidth(sine, 4);
 	setPlotterRangeY1(plotter, -2, RANGE_AUTO);
 	setPlotterTitleFontA(plotter, "Cascadia Mono", 24, ChartFontFlags_Bold);
-	showPlotW(plotter);
+	HPLOTTER plot2 = createPlotter();
+	int wid = showPlotAsync(plotter);
+	int wid2 = showPlotAsync(plot2);
+	joinWindow(wid);
+	joinWindow(wid2);
 
 	int size;
 	uint8_t* imageBuffer = renderPlotterToImageBuffer(plotter, 600, 400, &size, ChartImageFormat_RawRGB24);

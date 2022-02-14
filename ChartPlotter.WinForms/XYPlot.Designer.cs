@@ -62,6 +62,7 @@
             this.ctxColors = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.foregroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.backgroundToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuSaveAsCSV = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pbGraph)).BeginInit();
             this.ctxChart.SuspendLayout();
             this.pnDataEdit.SuspendLayout();
@@ -90,12 +91,13 @@
             this.toolStripSeparator1,
             this.saveAsImageToolStripMenuItem,
             this.copyToolStripMenuItem,
+            this.menuSaveAsCSV,
             this.toolStripSeparator2,
             this.editGraphsToolStripMenuItem,
             this.editAppearanceToolStripMenuItem});
             this.ctxChart.Name = "ctxChart";
             this.ctxChart.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.ctxChart.Size = new System.Drawing.Size(161, 126);
+            this.ctxChart.Size = new System.Drawing.Size(161, 148);
             // 
             // rangeToolStripMenuItem
             // 
@@ -375,6 +377,12 @@
             this.backgroundToolStripMenuItem.Text = "Background";
             this.backgroundToolStripMenuItem.Click += new System.EventHandler(this.backgroundToolStripMenuItem_Click);
             // 
+            // menuSaveAsCSV
+            // 
+            this.menuSaveAsCSV.Name = "menuSaveAsCSV";
+            this.menuSaveAsCSV.Size = new System.Drawing.Size(160, 22);
+            this.menuSaveAsCSV.Text = "Save as CSV";
+            // 
             // XYPlot
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -429,5 +437,6 @@
         private System.Windows.Forms.Button btnApFontTitle;
         private System.Windows.Forms.Button btnApFontLegend;
         private System.Windows.Forms.CheckBox cbLegend;
-	}
+        private System.Windows.Forms.ToolStripMenuItem menuSaveAsCSV;
+    }
 }

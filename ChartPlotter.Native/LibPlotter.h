@@ -74,11 +74,16 @@ DLLEXPORT(HPLOTDATA) createPlotDataXY(double xstart, double xstep, double xend, 
 /// <returns>The pointer to a buffer containing the image data. This buffer has to be deleted with deleteImageBuffer</returns>
 DLLEXPORT(uint8_t*) renderPlotterToImageBuffer(HPLOTTER plotter, int width, int height, int* size, ChartImageFormat format = ChartImageFormat_Png);
 DLLEXPORT(void) deleteImageBuffer(uint8_t* imageBuffer);
-DLLEXPORT(HWND) createPlotViewer(HPLOTTER plotter);
-DLLEXPORT(void) deletePlotViewer(HWND handle);
+//DLLEXPORT(HWND) createPlotViewer(HPLOTTER plotter);
+//DLLEXPORT(void) deletePlotViewer(HWND handle);
 DLLEXPORT(void) setPlotterTitleFontW(HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
 DLLEXPORT(void) setPlotterFontW(HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
 DLLEXPORT(void) setPlotterLegendFontW(HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
 DLLEXPORT(void) setPlotterTitleFontA(HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
 DLLEXPORT(void) setPlotterFontA(HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
 DLLEXPORT(void) setPlotterLegendFontA(HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
+DLLEXPORT(uint32_t) getPlotDataLength(HPLOTDATA plot);
+DLLEXPORT(void) getPlotDataX(HPLOTDATA plot, double* buffer);
+DLLEXPORT(void) getPlotDataY(HPLOTDATA plot, double* buffer);
+DLLEXPORT(int) showPlotAsync(HPLOTTER plotter, const wchar_t* title = NULL);
+DLLEXPORT(void) joinWindow(int id);

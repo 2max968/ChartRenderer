@@ -40,14 +40,17 @@ typedef HPLOTDATA  (__cdecl * type_createPlotDataY)           (double xstart, do
 typedef HPLOTDATA  (__cdecl * type_createPlotDataXY)          (double xstart, double xstep, double xend, functionXY function);
 typedef uint8_t*   (__cdecl * type_renderPlotterToImageBuffer)(HPLOTTER plotter, int width, int height, int* size, ChartImageFormat format);
 typedef void       (__cdecl * type_deleteImageBuffer)         (uint8_t* imageBuffer);
-typedef HWND       (__cdecl * type_createPlotViewer)          (HPLOTTER plotter);
-typedef void       (__cdecl * type_deletePlotViewer)          (HWND handle);
 typedef void       (__cdecl * type_setPlotterTitleFontW)      (HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags);
 typedef void       (__cdecl * type_setPlotterFontW)           (HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags);
 typedef void       (__cdecl * type_setPlotterLegendFontW)     (HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags);
 typedef void       (__cdecl * type_setPlotterTitleFontA)      (HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags);
 typedef void       (__cdecl * type_setPlotterFontA)           (HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags);
 typedef void       (__cdecl * type_setPlotterLegendFontA)     (HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags);
+typedef uint32_t   (__cdecl * type_getPlotDataLength)         (HPLOTDATA plot);
+typedef void       (__cdecl * type_getPlotDataX)              (HPLOTDATA plot, double* buffer);
+typedef void       (__cdecl * type_getPlotDataY)              (HPLOTDATA plot, double* buffer);
+typedef int        (__cdecl * type_showPlotAsync)             (HPLOTTER plotter, const wchar_t* title);
+typedef void       (__cdecl * type_joinWindow)                (int id);
 
 static type_createPlotter              fp_createPlotter;
 static type_deletePlotter              fp_deletePlotter;
@@ -88,14 +91,17 @@ static type_createPlotDataY            fp_createPlotDataY;
 static type_createPlotDataXY           fp_createPlotDataXY;
 static type_renderPlotterToImageBuffer fp_renderPlotterToImageBuffer;
 static type_deleteImageBuffer          fp_deleteImageBuffer;
-static type_createPlotViewer           fp_createPlotViewer;
-static type_deletePlotViewer           fp_deletePlotViewer;
 static type_setPlotterTitleFontW       fp_setPlotterTitleFontW;
 static type_setPlotterFontW            fp_setPlotterFontW;
 static type_setPlotterLegendFontW      fp_setPlotterLegendFontW;
 static type_setPlotterTitleFontA       fp_setPlotterTitleFontA;
 static type_setPlotterFontA            fp_setPlotterFontA;
 static type_setPlotterLegendFontA      fp_setPlotterLegendFontA;
+static type_getPlotDataLength          fp_getPlotDataLength;
+static type_getPlotDataX               fp_getPlotDataX;
+static type_getPlotDataY               fp_getPlotDataY;
+static type_showPlotAsync              fp_showPlotAsync;
+static type_joinWindow                 fp_joinWindow;
 
 int __cdecl initChartPlotter()
 {
@@ -141,14 +147,17 @@ int __cdecl initChartPlotter()
 	fp_createPlotDataXY           = (type_createPlotDataXY)GetProcAddress(lib, "createPlotDataXY");
 	fp_renderPlotterToImageBuffer = (type_renderPlotterToImageBuffer)GetProcAddress(lib, "renderPlotterToImageBuffer");
 	fp_deleteImageBuffer          = (type_deleteImageBuffer)GetProcAddress(lib, "deleteImageBuffer");
-	fp_createPlotViewer           = (type_createPlotViewer)GetProcAddress(lib, "createPlotViewer");
-	fp_deletePlotViewer           = (type_deletePlotViewer)GetProcAddress(lib, "deletePlotViewer");
 	fp_setPlotterTitleFontW       = (type_setPlotterTitleFontW)GetProcAddress(lib, "setPlotterTitleFontW");
 	fp_setPlotterFontW            = (type_setPlotterFontW)GetProcAddress(lib, "setPlotterFontW");
 	fp_setPlotterLegendFontW      = (type_setPlotterLegendFontW)GetProcAddress(lib, "setPlotterLegendFontW");
 	fp_setPlotterTitleFontA       = (type_setPlotterTitleFontA)GetProcAddress(lib, "setPlotterTitleFontA");
 	fp_setPlotterFontA            = (type_setPlotterFontA)GetProcAddress(lib, "setPlotterFontA");
 	fp_setPlotterLegendFontA      = (type_setPlotterLegendFontA)GetProcAddress(lib, "setPlotterLegendFontA");
+	fp_getPlotDataLength          = (type_getPlotDataLength)GetProcAddress(lib, "getPlotDataLength");
+	fp_getPlotDataX               = (type_getPlotDataX)GetProcAddress(lib, "getPlotDataX");
+	fp_getPlotDataY               = (type_getPlotDataY)GetProcAddress(lib, "getPlotDataY");
+	fp_showPlotAsync              = (type_showPlotAsync)GetProcAddress(lib, "showPlotAsync");
+	fp_joinWindow                 = (type_joinWindow)GetProcAddress(lib, "joinWindow");
 	return 1;
 }
 
@@ -425,20 +434,6 @@ void __cdecl deleteImageBuffer(uint8_t* imageBuffer)
 	fp_deleteImageBuffer(imageBuffer);
 }
 
-HWND __cdecl createPlotViewer(HPLOTTER plotter)
-{
-	if(fp_createPlotViewer == NULL)
-		throw 0;
-	return fp_createPlotViewer(plotter);
-}
-
-void __cdecl deletePlotViewer(HWND handle)
-{
-	if(fp_deletePlotViewer == NULL)
-		throw 0;
-	fp_deletePlotViewer(handle);
-}
-
 void __cdecl setPlotterTitleFont(HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags)
 {
 	if(fp_setPlotterTitleFontW == NULL)
@@ -479,5 +474,40 @@ void __cdecl setPlotterLegendFont(HPLOTTER plotter, const char* fontFamily, floa
 	if(fp_setPlotterLegendFontA == NULL)
 		throw 0;
 	fp_setPlotterLegendFontA(plotter, fontFamily, fontSize, flags);
+}
+
+uint32_t __cdecl getPlotDataLength(HPLOTDATA plot)
+{
+	if(fp_getPlotDataLength == NULL)
+		throw 0;
+	return fp_getPlotDataLength(plot);
+}
+
+void __cdecl getPlotDataX(HPLOTDATA plot, double* buffer)
+{
+	if(fp_getPlotDataX == NULL)
+		throw 0;
+	fp_getPlotDataX(plot, buffer);
+}
+
+void __cdecl getPlotDataY(HPLOTDATA plot, double* buffer)
+{
+	if(fp_getPlotDataY == NULL)
+		throw 0;
+	fp_getPlotDataY(plot, buffer);
+}
+
+int __cdecl showPlotAsync(HPLOTTER plotter, const wchar_t* title)
+{
+	if(fp_showPlotAsync == NULL)
+		throw 0;
+	return fp_showPlotAsync(plotter, title);
+}
+
+void __cdecl joinWindow(int id)
+{
+	if(fp_joinWindow == NULL)
+		throw 0;
+	fp_joinWindow(id);
 }
 

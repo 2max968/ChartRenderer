@@ -122,11 +122,14 @@ HPLOTDATA  __cdecl createPlotDataXY(double xstart, double xstep, double xend, fu
 /// <returns>The pointer to a buffer containing the image data. This buffer has to be deleted with deleteImageBuffer</returns>
 uint8_t*   __cdecl renderPlotterToImageBuffer(HPLOTTER plotter, int width, int height, int* size, ChartImageFormat format = ChartImageFormat_Png);
 void       __cdecl deleteImageBuffer(uint8_t* imageBuffer);
-HWND       __cdecl createPlotViewer(HPLOTTER plotter);
-void       __cdecl deletePlotViewer(HWND handle);
 void       __cdecl setPlotterTitleFont(HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
 void       __cdecl setPlotterFont(HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
 void       __cdecl setPlotterLegendFont(HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
 void       __cdecl setPlotterTitleFont(HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
 void       __cdecl setPlotterFont(HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
 void       __cdecl setPlotterLegendFont(HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
+uint32_t   __cdecl getPlotDataLength(HPLOTDATA plot);
+void       __cdecl getPlotDataX(HPLOTDATA plot, double* buffer);
+void       __cdecl getPlotDataY(HPLOTDATA plot, double* buffer);
+int        __cdecl showPlotAsync(HPLOTTER plotter, const wchar_t* title = NULL);
+void       __cdecl joinWindow(int id);

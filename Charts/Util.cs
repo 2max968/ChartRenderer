@@ -111,29 +111,60 @@ namespace ChartPlotter
 
         public static Bitmap BmpFromBase64(string base64)
 		{
-            if (!base64.StartsWith("base64:"))
-                return null;
-            try
+            if (base64.StartsWith("base64:"))
             {
-                byte[] buffer = Convert.FromBase64String(base64.Substring("base64:".Length));
-                using (var ms = new MemoryStream(buffer))
+                try
                 {
-                    using (var tmp = new Bitmap(ms))
+                    byte[] buffer = Convert.FromBase64String(base64.Substring("base64:".Length));
+                    using (var ms = new MemoryStream(buffer))
                     {
-                        return new Bitmap(tmp);
+                        using (var tmp = new Bitmap(ms))
+                        {
+                            return new Bitmap(tmp);
+                        }
                     }
                 }
-            }
-            catch
-            {
-                Bitmap bmp = new Bitmap(300, 40);
-                using (Graphics g = Graphics.FromImage(bmp))
+                catch
                 {
-                    g.Clear(Color.White);
-                    g.DrawString("Error in base64 image", new Font("Courier New", 12), Brushes.Red, 4, 4);
+                    Bitmap bmp = new Bitmap(300, 40);
+                    using (Graphics g = Graphics.FromImage(bmp))
+                    {
+                        g.Clear(Color.White);
+                        g.DrawString("Error in base64 image", new Font("Courier New", 12), Brushes.Red, 4, 4);
+                    }
+                    return bmp;
                 }
-                return bmp;
             }
+            else if(base64.StartsWith("$") && base64.EndsWith("$"))
+            {
+                try
+                {
+                    string text = base64.Substring(1, base64.Length - 2);
+                    return ChartPlotter.Latex.LatexRenderer.RenderMath(text);
+                }
+                catch(FileNotFoundException)
+                {
+                    Bitmap bmp = new Bitmap(300, 40);
+                    using (Graphics g = Graphics.FromImage(bmp))
+                    {
+                        g.Clear(Color.White);
+                        g.DrawString("Latex Module not present", new Font("Courier New", 12), Brushes.Red, 4, 4);
+                    }
+                    return bmp;
+                }
+                catch (Exception ex)
+                {
+                    Bitmap bmp = new Bitmap(300, 40);
+                    using (Graphics g = Graphics.FromImage(bmp))
+                    {
+                        g.Clear(Color.White);
+                        g.DrawString(ex.Message, new Font("Courier New", 12), Brushes.Red, 4, 4);
+                    }
+                    return bmp;
+                }
+            }
+
+            return null;
 		}
 
         public static void Cleanup<T>(ref T obj) where T : class, IDisposable

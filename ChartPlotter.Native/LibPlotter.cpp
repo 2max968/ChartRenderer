@@ -489,3 +489,39 @@ DLLEXPORT(void) setPlotterLegendFontA(HPLOTTER plotter, const char* fontFamily, 
 {
 	(*plotter)->LegendFont = _createFont(fontFamily, fontSize, flags);
 }
+
+DLLEXPORT(uint32_t) getPlotDataLength(HPLOTDATA plot)
+{
+	return (*plot)->Length;
+}
+
+DLLEXPORT(void) getPlotDataX(HPLOTDATA plot, double* buffer)
+{
+	Marshal::Copy((*plot)->DataX, 0, (IntPtr)buffer, (*plot)->Length);
+}
+
+DLLEXPORT(void) getPlotDataY(HPLOTDATA plot, double* buffer)
+{
+	Marshal::Copy((*plot)->DataY, 0, (IntPtr)buffer, (*plot)->Length);
+}
+
+DLLEXPORT(int) showPlotAsync(HPLOTTER plotter, const wchar_t* windowTitle)
+{
+	String^ title = nullptr;
+	if (windowTitle != NULL)
+		title = gcnew String(windowTitle);
+	if (checkHandle(plotter))
+	{
+		return XYPlotWindow::ShowWindowAsync(*plotter, title);
+	}
+	else
+	{
+		MessageBox::Show(nullptr, "Invalid Handle in plot", "Plotter", MessageBoxButtons::OK, MessageBoxIcon::Error);
+		return -1;
+	}
+}
+
+DLLEXPORT(void) joinWindow(int id)
+{
+	XYPlotWindow::JoinWindow(id);
+}

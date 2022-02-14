@@ -60,24 +60,52 @@ namespace ChartPlotter.WinForms
 
         public XYPlot()
         {
-            InitializeComponent();
-
             Plotter = new XYPlotRenderer();
-            Redraw();
-            renderLoop();
-            this.Disposed += XYPlot_Disposed;
-            this.MouseWheel += XYPlot_MouseWheel;
+            init();
         }
 
         public XYPlot(XYPlotRenderer plotter)
         {
+            Plotter = plotter;
+            init();
+        }
+
+        void init()
+        {
             InitializeComponent();
 
-            Plotter = plotter;
             Redraw();
             renderLoop();
             this.Disposed += XYPlot_Disposed;
             this.MouseWheel += XYPlot_MouseWheel;
+
+            foreach(var plot in Plotter.Data)
+            {
+                ToolStripMenuItem itm = new ToolStripMenuItem(plot.DataTitle);
+                itm.Tag = plot;
+                itm.Click += SaveAsCSVItm_Click;
+                menuSaveAsCSV.DropDownItems.Add(itm);
+            }
+
+            menuSaveAsCSV.Enabled = menuSaveAsCSV.DropDownItems?.Count > 0;
+        }
+
+        private void SaveAsCSVItm_Click(object sender, EventArgs e)
+        {
+            ToolStripItem itm = sender as ToolStripItem;
+            if (itm != null)
+            {
+                XYPlotData data = itm.Tag as XYPlotData;
+                if(data != null)
+                {
+                    SaveFileDialog ofd = new SaveFileDialog();
+                    ofd.Filter = "CSV Table|*.csv";
+                    if (ofd.ShowDialog() == DialogResult.OK)
+                    {
+                        CSVWriter.WriteToFile(ofd.FileName, data, Plotter.LabelX, Plotter.LabelY1);
+                    }
+                }
+            }
         }
 
         private void XYPlot_MouseWheel(object sender, MouseEventArgs e)
