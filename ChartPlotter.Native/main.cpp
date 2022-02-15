@@ -46,8 +46,20 @@ int main()
 	setPlotterRangeY1(plotter, -2, RANGE_AUTO);
 	setPlotterTitleFontA(plotter, "Cascadia Mono", 24, ChartFontFlags_Bold);
 	HPLOTTER plot2 = createPlotter();
+	HPLOTTER dsine = createPlotData(NULL, NULL, 0);
+	addPlotData(plot2, dsine);
 	int wid = showPlotAsync(plotter);
 	int wid2 = showPlotAsync(plot2);
+
+	/*for (int i = 0; i < 628; i++)
+	{
+		double _x = i / 100.0;
+		plotAddPoint(plot2, _x, sin(_x));
+		Sleep(200);
+		plotWindowRedraw(wid2);
+		Sleep(200);
+	}*/
+
 	joinWindow(wid);
 	joinWindow(wid2);
 

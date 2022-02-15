@@ -87,3 +87,4 @@ DLLEXPORT(void) getPlotDataX(HPLOTDATA plot, double* buffer);
 DLLEXPORT(void) getPlotDataY(HPLOTDATA plot, double* buffer);
 DLLEXPORT(int) showPlotAsync(HPLOTTER plotter, const wchar_t* title = NULL);
 DLLEXPORT(void) joinWindow(int id);
+DLLEXPORT(void) plotWindowRedraw(int id);

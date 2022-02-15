@@ -525,3 +525,8 @@ DLLEXPORT(void) joinWindow(int id)
 {
 	XYPlotWindow::JoinWindow(id);
 }
+
+DLLEXPORT(void) plotWindowRedraw(int id)
+{
+	XYPlotWindow::RedrawWindow(id);
+}

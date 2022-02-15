@@ -19,6 +19,7 @@ namespace ChartPlotter.WinForms
             plot.Dock = DockStyle.Fill;
             frm.Controls.Add(plot);
             frm.ClientSize = new System.Drawing.Size(600, 400);
+            frm.Tag = plot;
             if (title == null)
             {
                 frm.Text = "Plot - " + plotter.Title;
@@ -66,7 +67,24 @@ namespace ChartPlotter.WinForms
         {
             try
             {
-                windows[id].Value.Join();
+                if(windows.ContainsKey(id) && windows[id].Value.IsAlive)
+                    windows[id].Value.Join();
+            }
+            catch { }
+        }
+
+        public static void RedrawWindow(int id)
+        {
+            try
+            {
+                if (windows.ContainsKey(id) && windows[id].Value.IsAlive)
+                {
+                    windows[id].Key.Invoke((MethodInvoker)delegate ()
+                    {
+                        var plot = windows[id].Key.Tag as XYPlot;
+                        plot?.Redraw();
+                    });
+                }
             }
             catch { }
         }
