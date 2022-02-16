@@ -229,7 +229,7 @@ namespace ChartPlotter.WinForms
 
         async void renderLoop()
         {
-            while(running)
+            while (running)
             {
                 if (redraw && Plotter != null)
                 {
@@ -244,19 +244,19 @@ namespace ChartPlotter.WinForms
                         {
                             return Plotter.RenderChart(w, h);
                         }
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
                             Bitmap bmp = new Bitmap(w, h);
                             using (var g = Graphics.FromImage(bmp))
-							{
+                            {
                                 using (StringFormat sf = new StringFormat())
-								{
+                                {
                                     string errorText = ex.GetType().FullName + ": " + ex.Message + "\n";
                                     sf.LineAlignment = StringAlignment.Center;
                                     sf.Alignment = StringAlignment.Center;
                                     g.DrawString(errorText, new Font("Courier New", 12), Brushes.Black, new Rectangle(0, 0, w, h), sf);
-								}
-							}
+                                }
+                            }
                             return bmp;
                         }
                     });

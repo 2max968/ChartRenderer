@@ -530,3 +530,8 @@ DLLEXPORT(void) plotWindowRedraw(int id)
 {
 	XYPlotWindow::RedrawWindow(id);
 }
+
+DLLEXPORT(void) showTable(HPLOTDATA plot)
+{
+	TableView::ShowTable(*plot);
+}

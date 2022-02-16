@@ -49,6 +49,23 @@
       <DependentUpon>XYGraphSetp.cs</DependentUpon>
     </Compile>
     <Compile Include="MouseMoveMode.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SearchDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SearchDialog.Designer.cs">
+      <DependentUpon>SearchDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TableView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="TableView.Designer.cs">
+      <DependentUpon>TableView.cs</DependentUpon>
+    </Compile>
     <Compile Include="XYPlot.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -63,6 +80,16 @@
     <EmbeddedResource Include="GuiElements\XYGraphSetp.resx">
       <DependentUpon>XYGraphSetp.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SearchDialog.resx">
+      <DependentUpon>SearchDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TableView.resx">
+      <DependentUpon>TableView.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="XYPlot.resx">
       <DependentUpon>XYPlot.cs</DependentUpon>
     </EmbeddedResource>
@@ -72,6 +99,9 @@
       <Project>{46dafa0d-b6ca-4dcf-9ee7-80107ef87773}</Project>
       <Name>ChartPlotter</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ChartIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

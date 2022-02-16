@@ -10,16 +10,22 @@ namespace ChartPlotter.WinForms
 {
     public class XYPlotWindow
     {
+        static System.Drawing.Icon wndIco = null;
+
         static Dictionary<int, KeyValuePair<Form, Thread>> windows = new Dictionary<int, KeyValuePair<Form, Thread>>();
 
         public static Form CreateWindow(XYPlotRenderer plotter, string title = null)
         {
+            if (wndIco == null)
+                wndIco = System.Drawing.Icon.FromHandle(Properties.Resources.ChartIcon.GetHicon());
+
             Form frm = new Form();
             XYPlot plot = new XYPlot(plotter);
             plot.Dock = DockStyle.Fill;
             frm.Controls.Add(plot);
             frm.ClientSize = new System.Drawing.Size(600, 400);
             frm.Tag = plot;
+            frm.Icon = wndIco;
             if (title == null)
             {
                 frm.Text = "Plot - " + plotter.Title;

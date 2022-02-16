@@ -45,6 +45,7 @@ int main()
 	setPlotWidth(sine, 4);
 	setPlotterRangeY1(plotter, -2, RANGE_AUTO);
 	setPlotterTitleFontA(plotter, "Cascadia Mono", 24, ChartFontFlags_Bold);
+	showTable(sine);
 	HPLOTTER plot2 = createPlotter();
 	HPLOTTER dsine = createPlotData(NULL, NULL, 0);
 	addPlotData(plot2, dsine);
@@ -56,7 +57,7 @@ int main()
 		double _x = i / 100.0;
 		plotAddPoint(plot2, _x, sin(_x));
 		Sleep(200);
-		plotWindowRedraw(wid2);
+		//plotWindowRedraw(wid2);
 		Sleep(200);
 	}*/
 
