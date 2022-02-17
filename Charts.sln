@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32002.185
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChartPlotter", "Charts\ChartPlotter.csproj", "{46DAFA0D-B6CA-4DCF-9EE7-80107EF87773}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChartPlotter", "ChartPlotter\ChartPlotter.csproj", "{46DAFA0D-B6CA-4DCF-9EE7-80107EF87773}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestApp", "TestApp\TestApp.csproj", "{506A76A2-4E1A-4802-BE10-179DC95140D8}"
 EndProject

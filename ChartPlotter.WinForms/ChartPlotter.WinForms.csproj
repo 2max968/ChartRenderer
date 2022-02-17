@@ -95,7 +95,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Charts\ChartPlotter.csproj">
+    <ProjectReference Include="..\ChartPlotter\ChartPlotter.csproj">
       <Project>{46dafa0d-b6ca-4dcf-9ee7-80107ef87773}</Project>
       <Name>ChartPlotter</Name>
     </ProjectReference>
