@@ -1,4 +1,10 @@
-#pragma once
+#ifndef _CHARTPLOTTER_H
+#define _CHARTPLOTTER_H
+
+#ifdef __cplusplus
+extern "C"{
+#endif
+
 
 #include <inttypes.h>
 
@@ -14,11 +20,19 @@ using HPLOTDATA = PLOTDATA*;
 #endif
 
 typedef enum : int {
-	Regular,
-	Bold,
-	Italic,
-	Underline
+	ChartFontFlags_Regular,
+	ChartFontFlags_Bold,
+	ChartFontFlags_Italic,
+	ChartFontFlags_Underline,
+	ChartFontFlags_Strikeout
 } ChartFontFlags;
+
+typedef enum : uint8_t {
+	ChartImageFormat_Png,
+	ChartImageFormat_Bmp,
+	ChartImageFormat_Jpg,
+	ChartImageFormat_RawRGB24
+} ChartImageFormat;
 
 typedef struct
 {
@@ -47,6 +61,8 @@ typedef void (*functionXY)(double t, double* x, double* y);
 #define CHART_NAN			((float)((1e+300 * 1e+300) * 0.0F))
 #define RANGE_AUTO			CHART_NAN
 
+
+
 int        __cdecl initChartPlotter();
 /// <summary>
 /// Creates a new plot renderer
@@ -59,16 +75,6 @@ HPLOTTER   __cdecl createPlotter();
 /// <param name="plotter"></param>
 /// <returns></returns>
 void       __cdecl deletePlotter(HPLOTTER plotter);
-/// <summary>
-/// Renders all plots in this plotter to a pixel array
-/// </summary>
-/// <param name="plotter">Handle to a plot renderer</param>
-/// <param name="width">Width of the image to render</param>
-/// <param name="height">Height of the image to render</param>
-/// <param name="bitmap">Array where the pixels should be stored</param>
-/// <param name="bitmapSize">Size of the pixel array in bytes</param>
-/// <returns></returns>
-void       __cdecl renderPlotter(HPLOTTER plotter, int width, int height, uint8_t* bitmap, int bitmapSize);
 /// <summary>
 /// Render all plots in the plot renderer to a image file, the image format will be determined by the file extension
 /// </summary>
@@ -96,7 +102,7 @@ void       __cdecl setPlotterLabelY2(HPLOTTER plotter, const char* label);
 void       __cdecl setPlotTitle(HPLOTDATA plot, const char* title);
 void       __cdecl setPlotStyle(HPLOTDATA plot, char type);
 void       __cdecl showPlot(HPLOTTER plotter, const wchar_t* windowTitle = NULL);
-void       __cdecl showPlot(HPLOTTER plotter, const char* windowTitle = NULL);
+void       __cdecl showPlot(HPLOTTER plotter, const char* windowTitle);
 void       __cdecl setPlotIndex(HPLOTDATA plot, int index);
 void       __cdecl setPlotWidth(HPLOTDATA plot, float width);
 void       __cdecl setPlotShowInLegend(HPLOTDATA plot, bool visible);
@@ -112,3 +118,33 @@ void       __cdecl plotAddPoint(HPLOTDATA plot, double x, double y);
 void       __cdecl plotXY(double* x, double* y, int length, const char* title = NULL, const char* labelX = NULL, const char* labelY = NULL);
 HPLOTDATA  __cdecl createPlotDataY(double xstart, double xstep, double xend, functionY function);
 HPLOTDATA  __cdecl createPlotDataXY(double xstart, double xstep, double xend, functionXY function);
+/// <summary>
+/// Renders the plot to an image buffer
+/// </summary>
+/// <param name="plotter">The plotter to render</param>
+/// <param name="width">The width of the image to render</param>
+/// <param name="height"The height of the image to render></param>
+/// <param name="size">Outputs the size of the created buffer in bytes</param>
+/// <param name="format">The format to save the image. RawRGB24 just saves the pixels in the array</param>
+/// <returns>The pointer to a buffer containing the image data. This buffer has to be deleted with deleteImageBuffer</returns>
+uint8_t*   __cdecl renderPlotterToImageBuffer(HPLOTTER plotter, int width, int height, int* size, ChartImageFormat format = ChartImageFormat_Png);
+void       __cdecl deleteImageBuffer(uint8_t* imageBuffer);
+void       __cdecl setPlotterTitleFont(HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
+void       __cdecl setPlotterFont(HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
+void       __cdecl setPlotterLegendFont(HPLOTTER plotter, const wchar_t* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
+void       __cdecl setPlotterTitleFont(HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
+void       __cdecl setPlotterFont(HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
+void       __cdecl setPlotterLegendFont(HPLOTTER plotter, const char* fontFamily, float fontSize, ChartFontFlags flags = ChartFontFlags_Regular);
+uint32_t   __cdecl getPlotDataLength(HPLOTDATA plot);
+void       __cdecl getPlotDataX(HPLOTDATA plot, double* buffer);
+void       __cdecl getPlotDataY(HPLOTDATA plot, double* buffer);
+int        __cdecl showPlotAsync(HPLOTTER plotter, const wchar_t* title = NULL);
+void       __cdecl joinWindow(int id);
+void       __cdecl plotWindowRedraw(int id);
+void       __cdecl showTable(HPLOTDATA plot);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif //_CHARTPLOTTER_H

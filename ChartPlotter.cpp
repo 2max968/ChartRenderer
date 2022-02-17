@@ -1,5 +1,14 @@
 #include ".\ChartPlotter.h"
 #include <windows.h>
+#if defined(WINX64) or defined(__x86_64__)
+#define DLL_NAME L"ChartPlotter.Native64.dll"
+#else
+#define DLL_NAME L"ChartPlotter.Native32.dll"
+#endif
+
+#ifdef __cplusplus
+extern "C"{
+#endif
 
 typedef HPLOTTER   (__cdecl * type_createPlotter)             ();
 typedef void       (__cdecl * type_deletePlotter)             (HPLOTTER plotter);
@@ -51,6 +60,8 @@ typedef void       (__cdecl * type_getPlotDataX)              (HPLOTDATA plot, d
 typedef void       (__cdecl * type_getPlotDataY)              (HPLOTDATA plot, double* buffer);
 typedef int        (__cdecl * type_showPlotAsync)             (HPLOTTER plotter, const wchar_t* title);
 typedef void       (__cdecl * type_joinWindow)                (int id);
+typedef void       (__cdecl * type_plotWindowRedraw)          (int id);
+typedef void       (__cdecl * type_showTable)                 (HPLOTDATA plot);
 
 static type_createPlotter              fp_createPlotter;
 static type_deletePlotter              fp_deletePlotter;
@@ -102,10 +113,12 @@ static type_getPlotDataX               fp_getPlotDataX;
 static type_getPlotDataY               fp_getPlotDataY;
 static type_showPlotAsync              fp_showPlotAsync;
 static type_joinWindow                 fp_joinWindow;
+static type_plotWindowRedraw           fp_plotWindowRedraw;
+static type_showTable                  fp_showTable;
 
 int __cdecl initChartPlotter()
 {
-	HMODULE lib = LoadLibraryW(L"ChartPlotter.Native.dll");
+	HMODULE lib = LoadLibraryW(DLL_NAME);
 	if(lib == NULL)
 		return 0;
 	fp_createPlotter              = (type_createPlotter)GetProcAddress(lib, "createPlotter");
@@ -158,6 +171,8 @@ int __cdecl initChartPlotter()
 	fp_getPlotDataY               = (type_getPlotDataY)GetProcAddress(lib, "getPlotDataY");
 	fp_showPlotAsync              = (type_showPlotAsync)GetProcAddress(lib, "showPlotAsync");
 	fp_joinWindow                 = (type_joinWindow)GetProcAddress(lib, "joinWindow");
+	fp_plotWindowRedraw           = (type_plotWindowRedraw)GetProcAddress(lib, "plotWindowRedraw");
+	fp_showTable                  = (type_showTable)GetProcAddress(lib, "showTable");
 	return 1;
 }
 
@@ -511,3 +526,20 @@ void __cdecl joinWindow(int id)
 	fp_joinWindow(id);
 }
 
+void __cdecl plotWindowRedraw(int id)
+{
+	if(fp_plotWindowRedraw == NULL)
+		throw 0;
+	fp_plotWindowRedraw(id);
+}
+
+void __cdecl showTable(HPLOTDATA plot)
+{
+	if(fp_showTable == NULL)
+		throw 0;
+	fp_showTable(plot);
+}
+
+#ifdef __cplusplus
+}
+#endif

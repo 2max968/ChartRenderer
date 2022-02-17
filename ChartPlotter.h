@@ -1,4 +1,10 @@
-#pragma once
+#ifndef _CHARTPLOTTER_H
+#define _CHARTPLOTTER_H
+
+#ifdef __cplusplus
+extern "C"{
+#endif
+
 
 #include <inttypes.h>
 
@@ -54,6 +60,7 @@ typedef void (*functionXY)(double t, double* x, double* y);
 
 #define CHART_NAN			((float)((1e+300 * 1e+300) * 0.0F))
 #define RANGE_AUTO			CHART_NAN
+
 
 
 int        __cdecl initChartPlotter();
@@ -133,3 +140,11 @@ void       __cdecl getPlotDataX(HPLOTDATA plot, double* buffer);
 void       __cdecl getPlotDataY(HPLOTDATA plot, double* buffer);
 int        __cdecl showPlotAsync(HPLOTTER plotter, const wchar_t* title = NULL);
 void       __cdecl joinWindow(int id);
+void       __cdecl plotWindowRedraw(int id);
+void       __cdecl showTable(HPLOTDATA plot);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif //_CHARTPLOTTER_H

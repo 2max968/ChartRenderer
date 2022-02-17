@@ -5,7 +5,8 @@
   "DefinitionFiles": [
     ".\\Definitions.h"
   ],
-  "DllName": "ChartPlotter.Native.dll",
+  "DllName": "ChartPlotter.Native32.dll",
+  "DllName64": "ChartPlotter.Native64.dll",
   "SourceLocation": "..\\ChartPlotter.cpp",
   "HeaderLocation": "..\\ChartPlotter.h",
   "CallingConvention": "__cdecl",
@@ -19,5 +20,18 @@
   },
   "MainReturnSuccess": 0,
   "MainReturnModuleNotLoaded": 1,
-  "RemoveSuffixWA": true
+  "RemoveSuffixWA": true,
+  "CSSettings": {
+    "CreateCSBindings": false,
+    "ClassName": "NewClass",
+    "Usings": [
+      "System",
+      "System.Runtime.InteropServices"
+    ],
+    "FileName": "",
+    "Overloads": [],
+    "CallingConvention": "Cdecl",
+    "RemoveSuffix": ""
+  },
+  "FunctionManipulators": {}
 }
