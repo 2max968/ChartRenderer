@@ -112,7 +112,7 @@
       <Project>{e7ecb4dc-3a37-4a07-b1f7-3cb95de34298}</Project>
       <Name>ChartPlotter.WinForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Charts\ChartPlotter.csproj">
+    <ProjectReference Include="..\ChartPlotter\ChartPlotter.csproj">
       <Project>{46dafa0d-b6ca-4dcf-9ee7-80107ef87773}</Project>
       <Name>ChartPlotter</Name>
     </ProjectReference>

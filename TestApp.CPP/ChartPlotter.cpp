@@ -7,7 +7,7 @@
 #endif
 
 #ifdef __cplusplus
-extern "C"{
+extern "C++"{
 #endif
 
 typedef HPLOTTER   (__cdecl * type_createPlotter)             ();

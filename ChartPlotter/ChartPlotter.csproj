@@ -51,6 +51,8 @@
     <Compile Include="CSVWriter.cs" />
     <Compile Include="GridLineStyle.cs" />
     <Compile Include="PlotColors.cs" />
+    <Compile Include="Renderer.cs" />
+    <Compile Include="RendererGdi.cs" />
     <Compile Include="TextUnescaper.cs" />
     <Compile Include="XYPointInfo.cs" />
     <Compile Include="RenderHelper.cs" />

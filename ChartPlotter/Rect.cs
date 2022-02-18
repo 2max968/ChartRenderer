@@ -9,10 +9,10 @@ namespace ChartPlotter
 {
     public struct Rect
     {
-        public long Left;
-        public long Top;
-        public long Right;
-        public long Bottom;
+        public int Left;
+        public int Top;
+        public int Right;
+        public int Bottom;
 
         public long Width
         {
@@ -29,7 +29,7 @@ namespace ChartPlotter
             }
         }
 
-        public Rect(long left, long top, long right, long bottom)
+        public Rect(int left, int top, int right, int bottom)
         {
             Left = left;
             Top = top;
@@ -42,7 +42,7 @@ namespace ChartPlotter
             return x >= Left && x <= Right && y <= Bottom && y >= Top;
         }
 
-        public static Rect FromXYWH(long x, long y, long width, long height)
+        public static Rect FromXYWH(int x, int y, int width, int height)
         {
             return new Rect(x, y, x + width, y + height);
         }
@@ -66,10 +66,10 @@ namespace ChartPlotter
         {
             return new Rect
                 (
-                (long)(r.Left * d),
-                (long)(r.Top * d),
-                (long)(r.Right * d),
-                (long)(r.Bottom * d)
+                (int)(r.Left * d),
+                (int)(r.Top * d),
+                (int)(r.Right * d),
+                (int)(r.Bottom * d)
                 );
         }
 
@@ -77,11 +77,49 @@ namespace ChartPlotter
         {
             return new Rect
                 (
-                (long)(r.Left * l),
-                (long)(r.Top * l),
-                (long)(r.Right * l),
-                (long)(r.Bottom * l)
+                (int)(r.Left * l),
+                (int)(r.Top * l),
+                (int)(r.Right * l),
+                (int)(r.Bottom * l)
                 );
+        }
+    }
+
+    public struct RectF
+    {
+        public float Left;
+        public float Top;
+        public float Right;
+        public float Bottom;
+
+        public float Width { get=> Right - Left; }
+        public float Height { get=> Bottom - Top; }
+
+        public static implicit operator RectF(Rect rect)
+        {
+            return new RectF()
+            {
+                Left = rect.Left,
+                Top = rect.Top,
+                Right = rect.Right,
+                Bottom = rect.Bottom,
+            };
+        }
+
+        public static explicit operator RectangleF(RectF rect)
+        {
+            return new RectangleF((rect.Left), (rect.Top), (rect.Right - rect.Left), (rect.Bottom - rect.Top));
+        }
+
+        public static RectF FromXYHW(float x, float y, float w, float h)
+        {
+            return new RectF()
+            {
+                Left = x,
+                Top = y,
+                Right = x+w,
+                Bottom = y+h
+            };
         }
     }
 }
