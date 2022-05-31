@@ -49,6 +49,7 @@
     <Compile Include="CSVSettings.cs" />
     <Compile Include="CSVTable.cs" />
     <Compile Include="CSVWriter.cs" />
+    <Compile Include="DataMath.cs" />
     <Compile Include="GridLineStyle.cs" />
     <Compile Include="PlotColors.cs" />
     <Compile Include="Renderer.cs" />
